@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" minHeight="0" minWidth="0" width="100" height="100" backgroundColor="#FFFFFF" skinClass="skins.panel.PanelInside">
+	<fx:Script>
+		<![CDATA[
+
+			import skins.panel.PanelInside;
+			import skins.panel.PanelInsideNonTab;
+			import spark.components.NavigatorContent;
+
+
+			// Show tabs
+			[Bindable]
+			public var showTabs:Boolean = true;
+
+
+			public function addPanelItem(item:NavigatorContent):void
+			{
+				viewstack.addChild(item);
+			}
+			
+			
+			public function removePanelItem(item:NavigatorContent):void
+			{
+				viewstack.removeChild(item);
+			}
+			
+			
+			public function checkPanelItem(item:NavigatorContent):Boolean
+			{
+				return viewstack.contains(item);
+			}
+
+
+			/**
+			 * Check if we should show tabs or titlefield
+			 */
+			private function checkTabs():void
+			{
+				if (viewstack.length <= 1) {
+					showTabs = false;
+					if (viewstack.selectedChild != null) {
+						titlefield.text = viewstack.selectedChild.name;
+					}
+					setStyle("skinClass", skins.panel.PanelInsideNonTab);
+					tabs.y = -21;
+					titlefield.y = -14;
+				} else {
+					showTabs = true;
+					tabs.y = -26;
+					setStyle("skinClass", skins.panel.PanelInside);
+					titlefield.y = -17;
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:Label x="10" y="-30" id="titlefield" color="#FFFFFF" fontWeight="bold"/>
+	<s:TabBar id="tabs" x="0" y="-24" dataProvider="{viewstack}" width="100%" skinClass="skins.tabpanel.TabPanelSkin" height="21" right="-1" visible="{showTabs}"/>
+	<mx:ViewStack x="0" y="0" id="viewstack" width="100%" height="100%" creationPolicy="all" added="checkTabs()">
+	</mx:ViewStack>
+</s:SkinnableContainer>

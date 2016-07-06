@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" xmlns:components="components.*">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		.data {
+			backgroundAlpha: 1; 
+			backgroundColor: #FFFFFF; 
+			alternatingItemColors: #F0F0F0, #FFFFFF; 
+			horizontalGridLines: false; 
+			letterSpacing: 0; 
+			horizontalGridLineColor: #B2B2B2; 
+			verticalGridLineColor: #B2B2B2; 
+			rollOverColor: #BDEAF5; 
+			textRollOverColor: #000000; 
+			borderThickness: 0; 
+			border-style:none; 
+			selectionColor: #63BACF; 
+			color: #000000; 
+			textSelectedColor: #000000; 
+			textIndent: 0; 
+			dropShadowEnabled: false; 
+			text-align:left; 
+			padding-left:20; 
+			fontWeight: normal;
+			symbolColor: #545454; 
+		}
+		
+		.customScrollBarStyle
+		{
+			thumb-skin: ClassReference("skins.scrollbar.vertical.ScrollbarThumbSkin");
+			track-skin: ClassReference("skins.scrollbar.vertical.ScrollbarTrackSkin");
+			down-arrow-skin: Embed(source="../../../assets/scroll_bar_button_down.png");
+			up-arrow-skin: Embed(source="../../../assets/scroll_bar_button_up.png");
+		}
+	</fx:Style>
+	<mx:DataGrid id="datagrid" x="0" y="0" width="100%" height="100%" selectionDuration="0" styleName="data" headerBackgroundSkin="skins.datagrid.DatagridHeader" headerSeparatorSkin="skins.datagrid.DatagridHeaderDivider" doubleClickEnabled="true" verticalScrollPolicy="auto" verticalScrollBarStyleName="customScrollBarStyle" headerHeight="21"  rowHeight="23">
+		<mx:columns>
+			<mx:DataGridColumn headerText="" editable="false" width="17" minWidth="17">
+				<mx:itemRenderer>
+					<fx:Component>
+						<mx:Image source="{data['icon']}" width="16" height="16" maintainAspectRatio="true" scaleContent="false" verticalAlign="middle" horizontalAlign="center"/>
+					</fx:Component>
+				</mx:itemRenderer>
+			</mx:DataGridColumn>
+			<mx:DataGridColumn headerText="name" dataField="name" editable="false" >
+				<mx:itemRenderer>
+					<fx:Component>
+						<mx:Label text="{data['name']}" paddingLeft="5" paddingRight="5" truncateToFit="true"/>
+					</fx:Component>
+				</mx:itemRenderer>
+			</mx:DataGridColumn>
+		</mx:columns>
+	</mx:DataGrid>
+</s:NavigatorContent>

@@ -1,0 +1,119 @@
+
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5" blendMode="normal">
+	<fx:Metadata>
+		<![CDATA[
+			[HostComponent("spark.components.TextInput")]
+		]]>
+	</fx:Metadata>
+	<fx:Script fb:purpose="styling">
+		<![CDATA[
+
+			private var paddingChanged:Boolean;
+
+			static private const exclusions:Array = ["background", "textDisplay"];
+			static private const contentFill:Array = ["bgFill"];
+
+			override public function get colorizeExclusions():Array {
+				return exclusions;
+			}
+
+			override public function get contentItems():Array {
+				return contentFill;
+			};
+
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				if (paddingChanged) {
+					updatePadding();
+					paddingChanged = false;
+				}
+			}
+
+			override protected function initializationComplete():void
+			{
+				useChromeColor = true;
+				super.initializationComplete();
+			}
+
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				if (getStyle("borderVisible") == true) {
+					border.visible = true;
+					background.left = background.top = background.right = background.bottom = 1;
+					textDisplay.left = textDisplay.top = textDisplay.right = textDisplay.bottom = 1;
+				} else {
+					border.visible = false;
+					background.left = background.top = background.right = background.bottom = 0;
+					textDisplay.left = textDisplay.top = textDisplay.right = textDisplay.bottom = 0;
+				}
+
+				borderStroke.color = getStyle("borderColor");
+				borderStroke.alpha = getStyle("borderAlpha");
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+			}
+
+			private function updatePadding():void
+			{
+				if (!textDisplay)
+					return;
+
+				// Push padding styles into the textDisplay
+				var padding:Number;
+
+				padding = getStyle("paddingLeft");
+				if (textDisplay.getStyle("paddingLeft") != padding)
+					textDisplay.setStyle("paddingLeft", padding);
+
+				padding = getStyle("paddingTop");
+				if (textDisplay.getStyle("paddingTop") != padding)
+					textDisplay.setStyle("paddingTop", padding);
+
+				padding = getStyle("paddingRight");
+				if (textDisplay.getStyle("paddingRight") != padding)
+					textDisplay.setStyle("paddingRight", padding);
+
+				padding = getStyle("paddingBottom");
+				if (textDisplay.getStyle("paddingBottom") != padding)
+					textDisplay.setStyle("paddingBottom", padding);
+			}
+
+			override public function styleChanged(styleProp:String):void
+			{
+				var allStyles:Boolean = !styleProp || styleProp == "styleName";
+				super.styleChanged(styleProp);
+				if (allStyles || styleProp.indexOf("padding") == 0) {
+					paddingChanged = true;
+					invalidateProperties();
+				}
+			}
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+
+			private static const focusExclusions:Array = ["textDisplay"];
+
+			override public function get focusSkinExclusions():Array {
+				return focusExclusions;
+			};
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+		<s:State name="normalWithPrompt"/>
+		<s:State name="disabledWithPrompt" stateGroups="disabledStates"/>
+	</s:states>
+	<s:Rect left="0" right="0" top="0" bottom="0" id="border">
+		<s:stroke>
+			<s:SolidColorStroke id="borderStroke" weight="1"/>
+		</s:stroke>
+	</s:Rect>
+	<s:Rect id="background" left="1" right="1" top="1" bottom="1">
+		<s:fill>
+			<s:SolidColor id="bgFill" color="0xFFFFFF"/>
+		</s:fill>
+	</s:Rect>
+	<s:RichEditableText id="textDisplay" verticalAlign="middle" widthInChars="10" left="1" right="1" top="1" bottom="1"/>
+</s:SparkSkin>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" backgroundColor="#ffffff">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+
+			import mx.collections.XMLListCollection;
+
+			// Icons
+			[Bindable]
+			[Embed(source="../../../../assets/property_green.png")]
+			public var iconDefault:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/icon_root.png")]
+			public var iconRoot:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/icon_warning.png")]
+			public var iconWarning:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_blue.png")]
+			public var iconDisplayObject:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_green.png")]
+			public var iconVariable:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_grey.png")]
+			public var iconVariableReadonly:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_green.png")]
+			public var iconVariableWriteonly:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_green.png")]
+			public var iconXMLNode:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_green.png")]
+			public var iconXMLValue:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_green.png")]
+			public var iconXMLAttribute:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_green.png")]
+			public var iconFunction:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_green.png")]
+			public var iconEdit:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_green.png")]
+			public var iconLock:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/property_green.png")]
+			public var iconSave:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/folder_open.png")]
+			public var iconFolderOpen:Class;
+
+			[Bindable]
+			[Embed(source="../../../../assets/folder_closed.png")]
+			public var iconFolderClosed:Class;
+
+
+			[Bindable]
+			public var xml:XMLListCollection = new XMLListCollection();
+
+
+			/**
+			 * Set the data in the trace window
+			 * @param item: The object containing all the data
+			 */
+			public function set data(value:XML):void {
+				
+				// Open tree
+				if (value.children().length() == 1) {
+					if (value.children().children().length() == 1) {
+						switch(String(value.children().children()[0].@type)) {
+							case "int":
+							case "uint":
+							case "Number":
+							case "String":
+							case "Boolean":
+								tree.visible = false;
+								tree.includeInLayout = false;
+								singleEntry.visible = true;
+								singleEntry.includeInLayout = true;
+								singleEntry.text = String(value.children().children()[0].@value);
+								return;
+								break;
+						}
+					}
+				}
+
+				xml.source = value.children();
+				tree.openItems = value.children();
+			}
+		]]>
+	</fx:Script>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace panels "components.panels.*";
+		
+		.customScrollBarStyle
+		{
+			thumb-skin: ClassReference("skins.scrollbar.vertical.ScrollbarThumbSkin");
+			track-skin: ClassReference("skins.scrollbar.vertical.ScrollbarTrackSkin");
+			down-arrow-skin: Embed(source="../../../../assets/scroll_bar_button_down.png");
+			up-arrow-skin: Embed(source="../../../../assets/scroll_bar_button_up.png");
+		}
+		
+	</fx:Style>
+	<s:TextArea id="singleEntry" includeInLayout="false" visible="false" width="100%" height="100%" paddingTop="20" paddingLeft="20" paddingRight="20" paddingBottom="20" borderAlpha="0" borderVisible="false"/>
+	<mx:Tree id="tree" width="100%" height="100%" selectionDuration="0" borderStyle="none" editable="false" wordWrap="false" iconField="@icon" labelField="@label" openDuration="0" dataProvider="{xml}" folderOpenIcon="{iconFolderOpen}" folderClosedIcon="{iconFolderClosed}" borderAlpha="0" selectionColor="#63BACF" rollOverColor="#BDEAF5" verticalScrollBarStyleName="customScrollBarStyle" color="#1A1A1A" itemRenderer="components.itemrenderers.TreeComponent"/>
+</s:NavigatorContent>

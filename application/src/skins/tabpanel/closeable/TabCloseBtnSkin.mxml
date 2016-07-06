@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" minHeight="12" minWidth="12" alpha.disabled="0.5">
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	<fx:Declarations>
+		<s:SolidColorStroke id="stroke1" weight="2" color="#CCCCCC" color.over="#EEEEEE"/>
+	</fx:Declarations>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:BitmapImage source="@Embed('../../../../assets/close_cross_grey.png')" source.over="@Embed('../../../../assets/close_cross_red.png')" source.down="@Embed('../../../../assets/close_cross_red.png')" width="9" height="9"/>
+</s:SparkSkin>

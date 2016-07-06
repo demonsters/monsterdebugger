@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" xmlns:tabs="components.tabs.*"  xmlns:ticker="components.ticker.*" width="100%" height="100%" label="Home">
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace panels "components.panels.*";
+		
+		.customScrollBarStyle
+		{
+			thumb-skin: ClassReference("skins.scrollbar.vertical.ScrollbarThumbSkin");
+			track-skin: ClassReference("skins.scrollbar.vertical.ScrollbarTrackSkin");
+			down-arrow-skin: Embed(source="../../../assets/scroll_bar_button_down.png");
+			up-arrow-skin: Embed(source="../../../assets/scroll_bar_button_up.png");
+		}
+		
+	</fx:Style>
+	
+	<mx:HBox verticalGap="0" horizontalGap="0" fontSize="11" top="6" left="-1" right="-1" bottom="-1" borderColor="#b2b2b2" borderStyle="solid">
+		<mx:Canvas width="100%" minWidth="400" height="100%" backgroundColor="#FFFFFF" backgroundAlpha="1.0" verticalScrollPolicy="auto" horizontalScrollPolicy="off" verticalScrollBarStyleName="customScrollBarStyle">
+			<s:VGroup x="0" y="0" width="100%" height="100%" id="groupHome" paddingRight="20" paddingLeft="20" >
+				<s:SkinnableContainer width="100%">
+					<s:Label y="35" text="Welcome to the Monster Debugger 3" fontSize="13" fontStyle="italic" fontWeight="bold" left="15"/>
+					<s:Label y="62" lineHeight="18" maxWidth="580" text="To get started with Monster Debugger 3 you can use the implementation wizard. We also encourage you to check out the tour as that guides you through all the different features and functionalities that the Monster Debugger has. If this is the first time that you work with the debugger and want to see how you could use it in your own projects you should definitely check out the game that we built.&#13;&#13;Happy debugging and please do give us feedback on the Monster Debugger so we can continue to improve it!" left="15" right="15"/>
+				</s:SkinnableContainer>
+				<s:SkinnableContainer width="100%">
+					<s:Label text="Start" fontSize="13" fontStyle="italic" fontWeight="bold" y="28" left="15"/>
+					<s:Button id="buttonStart" label="Include the Monster Debugger in your project" skinClass="skins.button.iconButtons.WizzardButton" y="45" left="12"/>
+					<s:Label text="Recent files" fontSize="13" fontStyle="italic" fontWeight="bold" y="100" left="15"/>
+					<s:Group id="recentSessions" y="117" left="12">
+						<s:layout>
+							<s:VerticalLayout gap="0"/>
+						</s:layout>
+					</s:Group>
+				</s:SkinnableContainer>
+			</s:VGroup>
+			<s:VGroup x="0" y="0" width="100%" height="100%" paddingRight="20" paddingLeft="20" id="groupWizzard" visible="false" includeInLayout="false">
+				<s:SkinnableContainer width="100%">
+					<s:Label y="35" text="Implementation code" fontSize="13" fontStyle="italic" fontWeight="bold" left="15"/>
+					<s:Label id="buttonBack" y="7" text="Back" fontStyle="normal" fontWeight="normal" left="11" textDecoration="underline" backgroundColor="#FFFFFF" verticalAlign="middle" textAlign="left" width="50" height="20" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
+					<s:Label y="62" lineHeight="18" maxWidth="580" text="To include the Monster Debugger 3 in your project, first select your project type and target, then export the client classes to your project classpath and finally copy the example code into your project's document class." left="15" right="15"/>
+				</s:SkinnableContainer>
+				<s:SkinnableContainer width="100%">
+					<s:Label text="1. Project type" fontStyle="italic" fontWeight="bold" y="31" left="15"/>
+					<s:Label id="labelStep2" text="2. Project target" color="#CCCCCCC" fontStyle="italic" fontWeight="bold" y="69" left="15"/>
+					<s:Label id="labelStep3" text="3. Client" color="#CCCCCCC" fontStyle="italic" fontWeight="bold" y="107" left="15"/>
+					<s:Label id="labelStep4" text="4. Example Code" color="#CCCCCCC" fontStyle="italic" fontWeight="bold" y="145" left="15"/>
+					<s:DropDownList id="dropdownType" enabled="true" x="140" y="25" prompt="Select project type" skinClass="skins.DropdownMenu" maxWidth="256" width="100%" minWidth="100" height="23">
+						<mx:ArrayCollection>
+							<fx:String>Actionscript 3.0</fx:String>
+							<fx:String>Flex MXML</fx:String>
+						</mx:ArrayCollection>
+					</s:DropDownList>
+					<s:DropDownList id="dropdownTarget" enabled="false" x="140" y="63" prompt="Select project target" skinClass="skins.DropdownMenu" maxWidth="256" width="100%" minWidth="100" height="23">
+						<mx:ArrayCollection>
+							<fx:String>Web / Desktop</fx:String>
+							<fx:String>Mobile</fx:String>
+						</mx:ArrayCollection>
+					</s:DropDownList>
+					<s:Button id="buttonExport" enabled="false" label="Export" skinClass="skins.button.DefaultButton" maxWidth="163" width="100%" minWidth="100" x="140" y="101" height="23"/>
+					<s:Button id="buttonCopy" enabled="false" label="Copy code to clipboard" skinClass="skins.button.DefaultButton" maxWidth="163" width="100%" minWidth="100" x="140" y="362" height="23"/>
+					<mx:TextArea id="codeField" enabled="false" x="140" y="139" editable="false" borderColor="#B2B2B2" maxWidth="450" width="100%" minWidth="100" height="215" verticalScrollBarStyleName="customScrollBarStyle" horizontalScrollBarStyleName="customScrollBarStyle" fontFamily="Courier New, Courier, mono" wordWrap="false" verticalScrollPolicy="auto" horizontalScrollPolicy="auto"/>
+				</s:SkinnableContainer>
+			</s:VGroup>
+		</mx:Canvas>
+		<s:SkinnableContainer width="425" height="100%">
+			<s:BorderContainer backgroundColor="#F5F5F5" borderColor="#B2B2B2" borderStyle="solid" top="-1" left="-1" right="-1" bottom="-1">
+ 				<ticker:HomeTicker y="240" x="40"/>
+				<mx:HBox height="170" verticalGap="0" horizontalGap="-1" top="35" left="-1" right="-1">
+					<mx:VBox width="214" height="100%" verticalGap="-2" horizontalGap="0">
+						<s:Button id="buttonTour" label="Take The Tour" skinClass="skins.button.iconButtons.TourButton" width="100%"/>
+						<s:Button id="buttonGame" label="Monster Debugger Game" skinClass="skins.button.iconButtons.GameButton" width="100%"/>
+						<s:Button id="buttonDocumentation" label="Documentation" skinClass="skins.button.iconButtons.HelpButton" width="100%"/>
+						<s:Button id="buttonSources" label="Source Library" skinClass="skins.button.iconButtons.SourceButton" width="100%"/>
+						<s:Button id="buttonBug" label="Report a bug" skinClass="skins.button.iconButtons.BugButton" width="100%"/>
+					</mx:VBox>
+					<mx:VBox width="214" height="100%" verticalGap="-2" horizontalGap="0">
+						<s:Button id="buttonSiteDebugger" label="Monster Debugger.com" skinClass="skins.button.iconButtons.SiteButton" width="100%"/>
+						<s:Button id="buttonSiteMonsters" label="De Monsters.com" skinClass="skins.button.iconButtons.SiteButton" width="100%"/>
+						<s:Button id="buttonTwitter" label="Monster Debugger on Twitter" skinClass="skins.button.iconButtons.TwitterButton" width="100%"/>
+						<s:Button id="buttonFacebook" label="De Monsters on Facebook" skinClass="skins.button.iconButtons.FacebookButton" width="100%"/>
+						<s:Button id="buttonHire" label="Hire de Monsters" skinClass="skins.button.iconButtons.HireButton" width="100%"/>
+					</mx:VBox>
+				</mx:HBox>
+				<s:Label x="11" y="14" text="Help items" fontSize="11" fontStyle="italic" fontWeight="bold"/>
+				<s:Label x="227" y="14" text="Related Links" fontSize="11" fontStyle="italic" fontWeight="bold"/>
+			</s:BorderContainer>
+		</s:SkinnableContainer>
+	</mx:HBox>
+</s:NavigatorContent>

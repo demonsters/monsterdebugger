@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.panels.window.*" width="325" height="100%" creationComplete="onCreationComplete()">
+	<s:layout>
+		<s:VerticalLayout gap="20" horizontalAlign="center" paddingTop="20"/>
+	</s:layout>
+	<fx:Script>
+		<![CDATA[
+
+			import events.MethodEvent;
+
+			// Items to save
+			private var _runnable:Boolean;
+
+			[Bindable]
+			private var _label:String;
+
+			[Bindable]
+			private var _name:String;
+
+			[Bindable]
+			private var _type:String;
+
+			[Bindable]
+			private var _args:String;
+
+
+			[Bindable]
+			private var _returnType:String;
+			private var _target:String;
+			private var _access:String;
+			private var _parameters:XMLList;
+
+
+			// Checkboxes state holder
+			private var _checkboxes:Array;
+
+
+			/**
+			 * Set the data in the trace window
+			 * @param item: The object containing all the data
+			 * @param send: The reference to the send funtion
+			 */
+			public function set data(item:Object):void {
+				
+				// Save the item
+				_runnable = item.runnable;
+				_label = item.label;
+				_name = item.name;
+				_type = item.type;
+				_args = item.args;
+				_returnType = item.returnType;
+				_target = item.target;
+				_access = item.access;
+				_parameters = item.parameters;
+			}
+
+
+			/**
+			 * Get the parameters as the are filled in by the user
+			 */
+			public function get paramaters():Array {
+				
+				// Save the arguments
+				var arguments:Array = new Array();
+				if (methodRepeaterItem) {
+					for (var i:int = 0; i < methodRepeaterItem["length"]; i++) {
+						if (String(methodRepeaterItem[i].optional) == "true" && String(methodRepeaterItem[i].checkboxOptional.selected) == "false") {
+							break;
+						}
+						arguments.push(methodRepeaterItem[i].newValue);
+					}
+				}
+				return arguments;
+			}
+
+
+			/**
+			 * The application is ready
+			 */
+			private function onCreationComplete():void
+			{
+				// Create a dataprovider for the parameters
+				var dp:Array = new Array();
+				for (var i:int = 0; i < _parameters.length(); i++) {
+					var type:String = _parameters[i].@type;
+					var optional:String = _parameters[i].@optional;
+					dp.push({type:type, optional:optional});
+				}
+
+				// Show or hide the repeater
+				if (_parameters.length() == 0) {
+					noParametersLabel.visible = true;
+					methodRepeater.visible = false;
+					methodRepeater.includeInLayout = false;
+					methodRepeater.dataProvider = dp;
+				} else {
+					noParametersLabel.visible = false;
+					methodRepeater.visible = true;
+					methodRepeater.includeInLayout = true;
+					methodRepeater.dataProvider = dp;
+				}
+			}
+
+
+			/**
+			 * Save the checkbox state
+			 */
+			public function checkboxDownHander():void
+			{
+				_checkboxes = new Array();
+				if (methodRepeaterItem) {
+					for (var i:int = 0; i < methodRepeaterItem["length"]; i++) {
+						_checkboxes.push({index:i, optional:String(methodRepeaterItem[i].optional), selected:String(methodRepeaterItem[i].checkboxOptional.selected)});
+					}
+				}
+			}
+
+
+			/**
+			 * Check the chages
+			 */
+			public function checkboxHander():void
+			{
+				// Counter for the loops
+				var i:int = 0;
+
+				// Save the current state
+				var current:Array = new Array();
+				if (methodRepeaterItem) {
+					// FDT FIX FOR LENGTH: methodRepeaterItem["length"]
+					for (i = 0; i < methodRepeaterItem["length"]; i++) {
+						current.push({index:i, optional:String(methodRepeaterItem[i].optional), selected:String(methodRepeaterItem[i].checkboxOptional.selected)});
+					}
+				}
+
+				// Compare states, there are only two posibilities:
+				// Either a box has been check or unchecked at a certain position
+				var changed:Boolean = false;
+				var checked:Boolean = false;
+				var index:int = 0;
+				for (i = 0; i < current.length; i++) {
+					if (current[i].optional == "true" && _checkboxes[i].optional == "true") {
+						if (current[i].selected == "true" && _checkboxes[i].selected == "false") {
+							
+							// A box has been checked
+							index = i;
+							changed = true;
+							checked = true;
+						}
+						if (current[i].selected == "false" && _checkboxes[i].selected == "true") {
+							
+							// A box has been unchecked
+							index = i;
+							changed = true;
+							checked = false;
+						}
+					}
+				}
+
+				// If a box is checked, update the boxes above to the checked state
+				if (changed && checked) {
+					for (i = index; i >= 0; i--) {
+						if (methodRepeaterItem[i].optional == "true") {
+							methodRepeaterItem[i].checkboxOptional.selected = checked;
+							methodRepeaterItem[i].input.enabled = checked;
+						}
+					}
+				}
+
+				// If a box is unchecked, update the boxes below to the unchecked state
+				if (changed && !checked) {
+					for (i = index; i < current.length; i++) {
+						if (methodRepeaterItem[i].optional == "true") {
+							methodRepeaterItem[i].checkboxOptional.selected = checked;
+							methodRepeaterItem[i].input.enabled = checked;
+						}
+					}
+				}
+			}
+
+			/**
+			 * Send the method event to the controller
+			 */
+			private function callMethod():void
+			{
+				var e:MethodEvent = new MethodEvent(MethodEvent.CALL_METHOD);
+				e.methodParameters = paramaters;
+				e.methodTarget = _target;
+				e.methodReturnType = _returnType;
+				e.methodID = String(new Date().time) + "-" + generateRandomString(8);
+				dispatchEvent(e);
+			}
+
+
+			/**
+			 * Create a random string
+			 * @param newLength: Length of the random string
+			 * @param userAlphabet: The characters to use
+			 */
+			private function generateRandomString(newLength:int = 8, userAlphabet:String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"):String
+			{
+				var alphabet:Array = userAlphabet.split("");
+				var alphabetLength:int = alphabet.length;
+				var randomLetters:String = "";
+				for (var i:int = 0; i < newLength; i++) {
+					randomLetters += alphabet[int(Math.random() * alphabetLength)];
+				}
+				return randomLetters;
+			}
+		]]>
+	</fx:Script>
+	<s:Group x="0" y="20" width="100%" height="100%">
+		<s:layout>
+			<s:VerticalLayout gap="20" paddingLeft="0"/>
+		</s:layout>
+		<s:Group x="20" y="20" width="100%">
+			<s:layout>
+				<s:HorizontalLayout gap="0" paddingRight="20"/>
+			</s:layout>
+			<s:Group height="100%" width="100%">
+				<s:layout>
+					<s:VerticalLayout gap="10"/>
+				</s:layout>
+				<mx:Canvas width="100%" >
+					<mx:Repeater id="methodRepeater">
+						<components:MethodWindowRepeaterItem id="methodRepeaterItem" x="10" y="{methodRepeater.currentIndex * 30}" data="{methodRepeater.currentItem}" width="100%"/>
+					</mx:Repeater>
+					<mx:HBox  id="noParametersLabel" x="10" width="100%" height="25" backgroundColor="#dcdcdc" paddingLeft="10" verticalAlign="middle">
+						<mx:Label text="No parameters needed"/>
+					</mx:HBox>
+				</mx:Canvas>
+			</s:Group>
+		</s:Group>
+		<s:SkinnableContainer width="100%">
+			<s:layout>
+				<s:HorizontalLayout horizontalAlign="right" verticalAlign="middle" paddingRight="20" gap="35"/>
+			</s:layout>
+			<s:CheckBox id="wordwrapCheck" label="WordWrap results" skinClass="skins.CheckBoxSkin" selected="true" bottom="20" left="20"/>
+			<s:Button label="RUN" click="callMethod()" skinClass="skins.button.DefaultButton" height="20" width="70"/>
+		</s:SkinnableContainer>
+	</s:Group>
+	
+</s:NavigatorContent>

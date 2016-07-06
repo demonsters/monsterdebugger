@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Box xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" horizontalScrollPolicy="off" verticalScrollPolicy="off" width="100%">
+
+	<fx:Style>
+	.numericStepper{
+		upArrowUpSkin:  Embed(source="../../../../assets/stepper_up.png");
+		downArrowUpSkin:  Embed(source="../../../../assets/stepper_down.png");
+		upArrowOverSkin:  Embed(source="../../../../assets/stepper_up.png");
+		downArrowOverSkin:  Embed(source="../../../../assets/stepper_down.png");
+		upArrowDownSkin:  Embed(source="../../../../assets/stepper_up.png");
+		downArrowDownSkin:  Embed(source="../../../../assets/stepper_down.png");
+		borderColor:#b2b2b2;
+		borderThickness: 0;
+		shadowColor:#ffffff;
+	}
+	</fx:Style>
+	
+	<fx:Script>
+		<![CDATA[
+
+			import com.demonsters.debugger.MonsterDebuggerConstants;
+
+			// Variables needed
+			public var type:String;
+			public var optional:String;
+			public var input:Object;
+			
+			
+			// Object to save
+			public var newValue:Object = {};
+
+
+			/**
+			 * Set the data in the field
+			 * @param value: The value object
+			 */
+			[Bindable]
+			public override function set data(value:Object):void {
+				
+				// Super the data
+				super.data = value;
+
+				// Hide the items
+				inputOther.visible = false;
+				inputOther.includeInLayout = false;
+
+				inputString.visible = false;
+				inputString.includeInLayout = false;
+
+				inputNumber.visible = false;
+				inputNumber.includeInLayout = false;
+
+				inputInt.visible = false;
+				inputInt.includeInLayout = false;
+
+				inputUint.visible = false;
+				inputUint.includeInLayout = false;
+
+				inputBoolean.visible = false;
+				inputBoolean.includeInLayout = false;
+
+				checkboxOptional.visible = false;
+				checkboxOptional.includeInLayout = false;
+
+				// Save the needed vars
+				type = value["type"];
+				optional = value["optional"];
+
+				// Set the type
+				typeLabel.text = type;
+
+				// Check if we can edit the field
+				if (type == MonsterDebuggerConstants.TYPE_STRING) {
+					input = inputString;
+					inputString.visible = true;
+					inputString.includeInLayout = true;
+					inputString.text = "";
+					newValue = "";
+				} else if (type == MonsterDebuggerConstants.TYPE_NUMBER) {
+					input = inputNumber;
+					inputNumber.visible = true;
+					inputNumber.includeInLayout = true;
+					inputNumber.value = 0;
+					newValue = 0;
+				} else if (type == MonsterDebuggerConstants.TYPE_INT) {
+					input = inputInt;
+					inputInt.visible = true;
+					inputInt.includeInLayout = true;
+					inputInt.value = 0;
+					newValue = 0;
+				} else if (type == MonsterDebuggerConstants.TYPE_UINT) {
+					input = inputUint;
+					inputUint.visible = true;
+					inputUint.includeInLayout = true;
+					inputUint.value = 0;
+					newValue = 0;
+				} else if (type == MonsterDebuggerConstants.TYPE_BOOLEAN) {
+					input = inputBoolean;
+					inputBoolean.visible = true;
+					inputBoolean.includeInLayout = true;
+					inputBoolean.selectedIndex = 0;
+					newValue = true;
+				} else {
+					input = inputOther;
+					inputOther.visible = true;
+					inputOther.includeInLayout = true;
+					inputOther.text = "null";
+					newValue = null;
+				}
+
+				// If the parameter is optional
+				// Show the checkbox
+				if (optional == "true") {
+					checkboxOptional.visible = true;
+					checkboxOptional.includeInLayout = true;
+					input.enabled = false;
+				}
+			}
+
+			/**
+			 * Checkbox handlers
+			 */
+			private function checkboxDownHandler():void
+			{
+				parentDocument.checkboxDownHander();
+			}
+
+			private function checkboxHandler():void
+			{
+				parentDocument.checkboxHander();
+			}
+		]]>
+	</fx:Script>
+	
+	<mx:Canvas horizontalScrollPolicy="off" verticalScrollPolicy="off" width="100%">
+		<mx:HBox width="100%" horizontalGap="10">
+		<mx:Label id="typeLabel" color="#000000" width="73" y="2" text=""/>
+		<mx:TextInput id="inputOther" paddingLeft="2" width="100%" height="22" enabled="false" editable="false"/>
+		<mx:TextInput id="inputString" paddingLeft="2" width="100%" height="22" change="{newValue = String(inputString.text);}"/>
+		<mx:NumericStepper id="inputNumber" styleName="numericStepper" paddingLeft="2" width="100%"  minWidth="30" height="22" minimum="{-Number.MAX_VALUE}" maximum="{Number.MAX_VALUE}" stepSize="0.01" change="{newValue = Number(inputNumber.value);}"/>
+		<mx:NumericStepper id="inputInt" styleName="numericStepper" paddingLeft="2" width="100%" minWidth="30" height="22" minimum="{-int.MAX_VALUE}" maximum="{int.MAX_VALUE}" stepSize="1" change="{newValue = int(inputInt.value);}"/>
+		<mx:NumericStepper id="inputUint" styleName="numericStepper" paddingLeft="2" width="100%" minWidth="30" height="22" minimum="0" maximum="{uint.MAX_VALUE}" stepSize="1" change="{newValue = uint(inputUint.value);}"/>
+		<s:DropDownList id="inputBoolean" width="100%" change="{newValue = Boolean(inputBoolean.selectedIndex == 0);}" skinClass="skins.DropdownMenu">
+			<mx:ArrayCollection>
+				<fx:String>true</fx:String>
+				<fx:String>false</fx:String>
+			</mx:ArrayCollection>
+		</s:DropDownList>
+		<mx:CheckBox id="checkboxOptional" y="0" label="" mouseDown="checkboxDownHandler()" click="checkboxHandler()"/>
+		</mx:HBox>
+	</mx:Canvas>
+</mx:Box>

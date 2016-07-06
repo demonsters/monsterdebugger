@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minHeight="15" minWidth="15">
+	<fx:Metadata>
+		<![CDATA[ 
+			[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:Rect left="0" right="-1" top="-1" bottom="-1">
+		<s:stroke>
+			<s:SolidColorStroke color="#b2b2b2" weight="1"/>
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor color="#e4e4e4" color.down="#e4e4e4"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect left="1" right="0" height="1" bottom="-1">
+		<s:fill>
+			<s:SolidColor color="#979797" alpha="0.75" alpha.over="0.22" alpha.down="0.22"/>
+		</s:fill>
+	</s:Rect>
+	<!-- <s:Rect left="1" right="0" height="1" bottom="0">
+	<s:fill>
+	<s:SolidColor color="#c5c5c5" alpha="0.75" alpha.over="0.22" alpha.down="0.22" />
+	</s:fill>
+	</s:Rect> -->
+	<s:Rect left="1" right="0" height="1" top="0">
+		<s:fill>
+			<s:SolidColor color="#f8f8f8" alpha="0.75" alpha.over="0.22" alpha.down="0.22"/>
+		</s:fill>
+	</s:Rect>
+</s:SparkSkin>

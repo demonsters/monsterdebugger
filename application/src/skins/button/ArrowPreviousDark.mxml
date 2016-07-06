@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5">
+	<fx:Metadata>
+		<![CDATA[ 
+			[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:BitmapImage source="@Embed('../../../assets/arrow_left_grey.png')" source.over="@Embed('../../../assets/arrow_left_dark.png')" source.down="@Embed('../../../assets/arrow_left_dark.png')" width="11" height="11"/>
+</s:SparkSkin>

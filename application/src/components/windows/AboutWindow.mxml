@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" xmlns:tabs="components.tabs.*" width="676" height="363" title="MonsterDebugger - About" showStatusBar="false" creationComplete="onCreationComplete()" initialize="onInitialize()" >
+	<fx:Script>
+		<![CDATA[
+
+			import com.demonsters.debugger.MonsterDebuggerMenu;
+			import com.demonsters.debugger.MonsterDebuggerUtils;
+			
+
+			override protected function commitProperties():void
+			{
+				maximizable = false;
+				minimizable = false;
+				resizable = false;
+				super.commitProperties();
+			}
+			
+			
+			private function onInitialize():void
+			{
+				visible = false;
+			}
+			
+			
+			private function onCreationComplete():void
+			{
+				MonsterDebuggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.AboutWindow");
+				visible = true;
+				
+				// Set on top
+				if (MonsterDebuggerMenu.mainWindow.alwaysInFront) {
+					alwaysInFront = true;
+				}
+				
+				// Add event listener to the stage
+				stage.addEventListener(KeyboardEvent.KEY_UP, function(event:KeyboardEvent):void {
+					if (event.charCode == 27) {
+						close();
+						// The users pressed ESC
+					}
+				});
+				
+				nativeWindow.addEventListener(Event.CLOSING, saveWindowOptions, false, 0, true);
+			}
+			
+			
+			private function saveWindowOptions(e:Event):void
+			{
+				MonsterDebuggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.AboutWindow");
+			}
+			
+		]]>
+	</fx:Script>
+
+	<mx:Image source="@Embed('../../../assets/about.png')"></mx:Image>
+	
+	<mx:Text width="320" top="20" left="20" fontSize="11" selectable="false">
+		<mx:htmlText>
+<![CDATA[
+<font size="16"><b>Monster Debugger 3.02</b></font>
+
+Monster Debugger is an open source Adobe Flash, Flex and AIR debugger made by Digital Creative Agency De Monsters from Amsterdam. Monster Debugger is created in ActionScript 3 and Adobe AIR.
+
+More information:
+<b><u><a href='http://www.monsterdebugger.com'>www.MonsterDebugger.com</a></u></b>
+<b><u><a href='http://www.demonsters.com'>www.deMonsters.com</a></u></b>
+<b><u><a href='http://www.gnu.org/licenses/gpl.html'>Open source license</a></u></b>
+]]>
+		</mx:htmlText>
+	</mx:Text>
+
+</s:Window>

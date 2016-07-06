@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled=".5">
+	<fx:Metadata>
+		<![CDATA[ 
+			[HostComponent("spark.components.DropDownList")]
+		]]>
+	</fx:Metadata>
+	<fx:Script fb:purpose="styling">
+		<![CDATA[
+
+			static private const contentFill:Array = ["bgFill"];
+
+			override public function get contentItems():Array {
+				return contentFill;
+			};
+
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				if (getStyle("borderVisible") == false) {
+					if (border) border.visible = false;
+					if (background) {
+						background.left = background.top = background.right = background.bottom = 0;
+					}
+					if (scroller) scroller.minViewportInset = 0;
+				} else {
+					if (border) border.visible = true;
+					if (background) {
+						background.left = background.top = background.right = background.bottom = 1;
+					}
+					if (scroller) scroller.minViewportInset = 1;
+				}
+				openButton.setStyle("cornerRadius", getStyle("cornerRadius"));
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+			}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="open"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:PopUpAnchor id="popUp" displayPopUp.normal="false" displayPopUp.open="true" includeIn="open" left="0" right="0" top="0" bottom="0" itemDestructionPolicy="auto" popUpPosition="below" popUpWidthMatchesAnchorWidth="true">
+		<s:Group id="dropDown" maxHeight="134" minHeight="22">
+			<s:Rect id="border" left="0" right="0" top="0" bottom="0">
+				<s:stroke>
+					<s:SolidColorStroke id="borderStroke" weight="1" color="#b2b2b2"/>
+				</s:stroke>
+			</s:Rect>
+			<s:Rect id="background" left="1" right="1" top="1" bottom="1">
+				<s:fill>
+					<s:SolidColor id="bgFill" color="#FFFFFF"/>
+				</s:fill>
+			</s:Rect>
+			<s:Scroller id="scroller" left="0" top="0" right="0" bottom="0" hasFocusableChildren="false" minViewportInset="1">
+				<s:DataGroup id="dataGroup" itemRenderer="spark.skins.spark.DefaultItemRenderer">
+					<s:layout>
+						<s:VerticalLayout gap="0" horizontalAlign="contentJustify"/>
+					</s:layout>
+				</s:DataGroup>
+			</s:Scroller>
+		</s:Group>
+	</s:PopUpAnchor>
+	<s:Button id="openButton" left="0" right="0" top="0" bottom="0" focusEnabled="false" skinClass="skins.DropdownMenuButton"/>
+	<s:Label id="labelDisplay" verticalAlign="middle" maxDisplayedLines="1" mouseEnabled="false" mouseChildren="false" left="7" right="30" top="2" bottom="2" width="75" verticalCenter="1"/>
+</s:SparkSkin>

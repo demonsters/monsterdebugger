@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" xmlns:components="components.*">
+	<fx:Script>
+		<![CDATA[
+
+			// Icons
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconDefault:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/icon_root.png")]
+			public var iconRoot:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/icon_warning.png")]
+			public var iconWarning:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_blue.png")]
+			public var iconDisplayObject:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconVariable:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_grey.png")]
+			public var iconVariableReadonly:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconVariableWriteonly:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconXMLNode:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconXMLValue:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconXMLAttribute:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconFunction:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconEdit:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconLock:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconSave:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/folder_open.png")]
+			public var iconFolderOpen:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/folder_closed.png")]
+			public var iconFolderClosed:Class;
+		]]>
+	</fx:Script>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace panels "components.panels.*";
+		
+		.customScrollBarStyle
+		{
+			thumb-skin: ClassReference("skins.scrollbar.vertical.ScrollbarThumbSkin");
+			track-skin: ClassReference("skins.scrollbar.vertical.ScrollbarTrackSkin");
+			down-arrow-skin: Embed(source="../../../assets/scroll_bar_button_down.png");
+			up-arrow-skin: Embed(source="../../../assets/scroll_bar_button_up.png");
+		}
+
+	</fx:Style>
+	<s:Group id="holderGroup" width="100%" height="100%">
+		<s:layout>
+			<s:VerticalLayout gap="0"/>
+		</s:layout>
+		<s:mask>
+			<s:Group>
+				<s:Rect width="{holderGroup.width}" height="{holderGroup.height}">
+					<s:fill>
+						<s:SolidColor color="#000000"/>
+					</s:fill>
+				</s:Rect>
+			</s:Group>
+		</s:mask>
+		<s:SkinnableContainer width="100%" height="100%" bottom="25" skinClass="skins.ContainerWhite">
+			<mx:Tree id="tree" width="100%" height="100%" selectionDuration="0" borderStyle="none" editable="false" wordWrap="false" iconField="@icon" labelField="@label" openDuration="0" folderOpenIcon="{iconFolderOpen}" folderClosedIcon="{iconFolderClosed}" borderAlpha="0" selectionColor="#63BACF" rollOverColor="#BDEAF5" verticalScrollBarStyleName="customScrollBarStyle" color="#1A1A1A" indentation="10" itemRenderer="components.itemrenderers.TreeComponent"/>
+		</s:SkinnableContainer>
+		<mx:HRule height="1" width="100%" bottom="23" chromeColor="#b2b2b2"/>
+		<s:SkinnableContainer width="100%" height="23" skinClass="skins.ContainerGrey">
+			<s:layout>
+				<s:HorizontalLayout gap="5" verticalAlign="middle" paddingLeft="10" paddingRight="2"/>
+			</s:layout>
+			<s:Label text="filter: " height="8"/>
+			<components:Filter id="filter"/>
+			<mx:Spacer width="100%"/>
+			<s:CheckBox id="inspectCheckbox" label="Highlight &amp; Inspect" height="20" width="110" skinClass="skins.CheckBoxSkin"/>
+		</s:SkinnableContainer>
+	</s:Group>
+</s:NavigatorContent>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minHeight="23" minWidth="40" alpha.disabled="0.5
+             ">
+	<fx:Metadata>
+		<![CDATA[ 
+			[HostComponent("spark.components.NumericStepper")]
+		]]>
+	</fx:Metadata>
+	<fx:Script fb:purpose="styling">
+		<![CDATA[
+
+			static private const exclusions:Array = ["textDisplay", "decrementButton", "incrementButton"];
+
+			override public function get colorizeExclusions():Array {
+				return exclusions;
+			}
+
+			override protected function initializationComplete():void
+			{
+				useChromeColor = true;
+				super.initializationComplete();
+			}
+
+			private var cornerRadiusChanged:Boolean;
+			private var borderStylesChanged:Boolean;
+
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				if (cornerRadiusChanged) {
+					var cr:Number = getStyle("cornerRadius");
+					if (incrementButton)
+						incrementButton.setStyle("cornerRadius", cr);
+					if (decrementButton)
+						decrementButton.setStyle("cornerRadius", cr);
+					cornerRadiusChanged = false;
+				}
+				if (borderStylesChanged) {
+					textDisplay.setStyle("borderAlpha", getStyle("borderAlpha"));
+					textDisplay.setStyle("borderColor", getStyle("borderColor"));
+					textDisplay.setStyle("borderVisible", getStyle("borderVisible"));
+					borderStylesChanged = false;
+				}
+			}
+
+			override public function styleChanged(styleProp:String):void
+			{
+				var allStyles:Boolean = !styleProp || styleProp == "styleName";
+				super.styleChanged(styleProp);
+				if (allStyles || styleProp == "cornerRadius") {
+					cornerRadiusChanged = true;
+					invalidateProperties();
+				}
+				if (allStyles || styleProp.indexOf("border") == 0) {
+					borderStylesChanged = true;
+					invalidateProperties();
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:Button id="incrementButton" right="0" top="0" height="50%" skinClass="skins.numstepper.NumButtonUpSkin"/>
+	<s:Button id="decrementButton" right="0" bottom="0" height="50%" skinClass="skins.numstepper.NumButtonDownSkin"/>
+	<s:TextInput id="textDisplay" left="0" top="0" right="13" bottom="0" skinClass="spark.skins.spark.NumericStepperTextInputSkin" borderColor="#b2b2b2" borderVisible="false" borderVisible.normal="true"/>
+</s:SparkSkin>

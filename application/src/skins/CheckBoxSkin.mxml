@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabledStates="0.5">
+	<fx:Metadata>
+		<![CDATA[ 
+			[HostComponent("spark.components.CheckBox")]
+		]]>
+	</fx:Metadata>
+	<fx:Script fb:purpose="styling">
+		<![CDATA[
+
+			static private const symbols:Array = ["checkMarkFill"];
+
+			override public function get symbolItems():Array {
+				return symbols;
+			};
+
+			override protected function initializationComplete():void
+			{
+				useChromeColor = true;
+				super.initializationComplete();
+			}
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+
+			private static const focusExclusions:Array = ["labelDisplay"];
+
+			override public function get focusSkinExclusions():Array {
+				return focusExclusions;
+			};
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over" stateGroups="overStates"/>
+		<s:State name="down" stateGroups="downStates"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+		<s:State name="upAndSelected" stateGroups="selectedStates"/>
+		<s:State name="overAndSelected" stateGroups="overStates, selectedStates"/>
+		<s:State name="downAndSelected" stateGroups="downStates, selectedStates"/>
+		<s:State name="disabledAndSelected" stateGroups="disabledStates, selectedStates"/>
+	</s:states>
+	<s:Group verticalCenter="0" width="10" height="10">
+		<s:Rect left="1" top="1" right="1" bottom="1">
+			<s:fill>
+				<s:SolidColor color="0xffffff"/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect left="1" right="1" top="1" bottom="1" excludeFrom="downStates">
+			<s:stroke>
+				<s:SolidColorStroke color="0xffffff" alpha="0"/>
+			</s:stroke>
+		</s:Rect>
+		<s:Rect left="0" top="0" right="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xb2b2b2"/>
+			</s:stroke>
+		</s:Rect>
+		<s:Path left="2" top="2" includeIn="selectedStates" id="check" itemCreationPolicy="immediate" data="M1.99463 2.01563 0.96875 2.03027 0.984375 1.03125 0 1.03125 0 3 0.96875 3 0.96875 4.0625 1.99463 4.04688 1.99463 5.04688 2.979 5.04688 2.96338 4.03125 4.00293 4.02344 4.01563 3.03125 5.00195 3.02295 4.99463 2.03125 6.01025 2.01563 6.01025 0 4.98438 0 4.99463 1.04688 3.979 1.0625 3.99463 2.04688 2.99463 2.04688 3.01025 3.09375 1.99463 3.09375 1.99463 2.01563Z">
+			<s:fill>
+				<s:SolidColor id="checkMarkFill" color="0" alpha="0.8"/>
+			</s:fill>
+		</s:Path>
+	</s:Group>
+	<s:Label id="labelDisplay" textAlign="start" verticalAlign="middle" maxDisplayedLines="1" left="18" right="0" top="0" bottom="-2" verticalCenter="1"/>
+</s:SparkSkin>

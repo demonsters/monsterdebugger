@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" backgroundColor="#F5F5F5" backgroundAlpha="1">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<s:Button label="Stacktrace" id="openButton" bottom="0" left="0" width="50%" skinClass="skins.button.StacktraceButton" enabled="false"/>
+	<s:Button label="Show line" id="showButton" bottom="0" right="0" width="50%" skinClass="skins.button.ShowPreviewButton" enabled="false"/>
+	<s:Button x="10" y="10" id="playButton" visible="false" label="Play" width="40" height="28" skinClass="skins.button.PlayButton"/>
+	<s:Button x="10" y="10" id="pauseButton" visible="true" label="Pause" width="40" height="28" skinClass="skins.button.PauseButton"/>
+	<s:Label id="labelfield" text="Running" left="60" top="12" right="10" bottom="40"/>
+	<s:SkinnableContainer id="message" width="100%" height="100%" backgroundColor="#F5F5F5" visible="true">
+		<s:Label left="10" top="11" right="10" text="Run the Flash Player in debug mode to enable breakpoints, click here to learn more about this feature."/>
+	</s:SkinnableContainer>
+</s:NavigatorContent>

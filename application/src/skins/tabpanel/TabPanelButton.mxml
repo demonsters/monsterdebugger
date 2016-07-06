@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minWidth="21" minHeight="21" alpha.disabledStates="0.5">
+	<fx:Metadata>
+		[HostComponent("spark.components.ButtonBarButton")]
+	</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over" stateGroups="overStates"/>
+		<s:State name="down" stateGroups="downStates"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+		<s:State name="upAndSelected" stateGroups="selectedStates, selectedUpStates"/>
+		<s:State name="overAndSelected" stateGroups="overStates, selectedStates"/>
+		<s:State name="downAndSelected" stateGroups="downStates, selectedStates"/>
+		<s:State name="disabledAndSelected" stateGroups="selectedUpStates, disabledStates, selectedStates"/>
+	</s:states>
+	<s:Rect id="border" left="0" right="0" top="0" bottom="0" width="69" height="20">
+		<s:stroke>
+			<s:SolidColorStroke weight="1" color="#545454"/>
+		</s:stroke>
+	</s:Rect>
+	<s:Rect id="fill" left="1" right="1" top="1" bottom="0" bottom.over="1" bottom.down="1" bottom.overAndSelected="0" bottom.up="1">
+		<s:fill>
+			<s:SolidColor color.disabledStates="#A2A2A2" color.up="#A2A2A2" color.upAndSelected="#F5F5F5" color.over="#F5F5F5" color.overAndSelected="#F5F5F5" color.down="#F5F5F5" color.downAndSelected="#F5F5F5"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect id="highlight" left="1" right="1" top="1" width="69" height="1">
+		<s:fill>
+			<s:SolidColor color.over="#FFFFFF" color.overAndSelected="#FFFFFF" color.down="#FFFFFF" color.downAndSelected="#FFFFFF" color.up="#D7D7D7" color.upAndSelected="#ffffff"/>
+		</s:fill>
+	</s:Rect>
+	<s:Label id="labelDisplay" textAlign="center" verticalAlign="middle" maxDisplayedLines="1" horizontalCenter="0" verticalCenter="1" left="10" right="10" top="2" bottom="2" color="#292929" fontWeight="bold">
+	</s:Label>
+</s:SparkSkin>

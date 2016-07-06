@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" >
+	<s:layout>
+		<s:HorizontalLayout gap="3"  verticalAlign="middle"/>
+	</s:layout>
+	<fx:Script>
+		<![CDATA[
+ 			public function set counter(text:String):void{
+				 countLabel.text = text;
+			 }
+			private function nextHandler():void{
+ 				dispatchEvent(new Event("nextItem", true));
+			}
+			private function previousHandler():void{
+ 	 			dispatchEvent(new Event("previousItem", true));
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Metadata>
+		 [Event(name="nextItem", type="flash.events.Event")]
+		 [Event(name="previousItem", type="flash.events.Event")]
+	</fx:Metadata>
+
+ 	<s:Button id="previous" skinClass="skins.button.ArrowPreviousDark" click="previousHandler()"/>
+	<s:Label id="countLabel" text="1/1" color="#000000" fontWeight="bold" height="10"/>
+	<s:Button id="next" skinClass="skins.button.ArrowNextDark" click="nextHandler()"/>
+</s:Group>

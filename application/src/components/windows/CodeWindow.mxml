@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="500" title="Monster Debugger - Editor" showStatusBar="false" creationComplete="onCreationComplete()" closing="onClosing()" initialize="onInitialize()" menu="{xmlBasedMenu}">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Script>
+		<![CDATA[
+
+			import net.anirudh.as3syntaxhighlight.CodePrettyPrint;
+			import net.anirudh.as3syntaxhighlight.PseudoThread;
+			import com.demonsters.debugger.MonsterDebuggerMenu;
+			import com.demonsters.debugger.MonsterDebuggerUtils;
+			import mx.controls.textClasses.TextRange;
+			import mx.core.mx_internal;
+			import mx.events.AIREvent;
+			import mx.events.FlexNativeMenuEvent;
+			import flash.filesystem.File;
+			import flash.filesystem.FileMode;
+			import flash.filesystem.FileStream;
+
+			use namespace mx_internal;
+
+
+			// Code highlighting vars
+			private var _cssString:String = ".spl { font-family:Courier New, Monaco, Courier, mono; color: #4f94CD;} " + ".str { font-family:Courier New, Monaco, Courier, mono; color: #880000; } " + ".kwd { font-family:Courier New, Monaco, Courier, mono; color: #000088; } " + ".com { font-family:Courier New, Monaco, Courier, mono; color: #008800; } " + ".typ { font-family:Courier New, Monaco, Courier, mono; color: #0068CF; } " + ".lit { font-family:Courier New, Monaco, Courier, mono; color: #006666; } " + ".pun { font-family:Courier New, Monaco, Courier, mono; color: #666600; } " + ".pln { font-family:Courier New, Monaco, Courier, mono; color: #222222; } " + ".tag { font-family:Courier New, Monaco, Courier, mono; color: #000088; } " + ".atn { font-family:Courier New, Monaco, Courier, mono; color: #660066; } " + ".atv { font-family:Courier New, Monaco, Courier, mono; color: #880000; } " + ".dec { font-family:Courier New, Monaco, Courier, mono; color: #660066; } ";
+			private var _codeStylesheet:StyleSheet;
+			private var _codePrettyPrint:CodePrettyPrint;
+			private var _codeTimer:Timer;
+			private var _asyncRunning:Boolean;
+			private var _srclen:int;
+			private var _desclen:int;
+			private var _arr:Array;
+			private var _len:int;
+			private var _firstNode:Boolean;
+			private var _firstIndex:int;
+			private var _pfasyncrunning:Boolean;
+			private var _pfasyncstop:Boolean;
+			private var _colorThread:PseudoThread;
+			private var _path:String;
+			private var _line:int;
+
+
+			/**
+			 * Set the data
+			 */
+			public function setData(path:String, line:int):void
+			{
+				// Save the item
+				_path = path;
+				_line = line;
+			}
+
+
+			private function onInitialize():void
+			{
+				visible = false;
+			}
+
+
+			private function onCreationComplete():void
+			{
+				if (Capabilities.os.substr(0, 3) == "Mac") {
+					addEventListener(AIREvent.WINDOW_ACTIVATE, onActivate);
+					addEventListener(AIREvent.WINDOW_DEACTIVATE, onDeactivate);
+				}
+
+				MonsterDebuggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.CodeWindow");
+				visible = true;
+				
+				// Set on top
+				if (MonsterDebuggerMenu.mainWindow.alwaysInFront) {
+					alwaysInFront = true;
+				}
+				
+				// Add event listener to the stage
+				stage.addEventListener(KeyboardEvent.KEY_UP, function(event:KeyboardEvent):void {
+					if (event.charCode == 27) {
+						close();
+						// The users pressed ESC
+					}
+				});
+
+				loadFile();
+				nativeWindow.addEventListener(Event.CLOSING, saveWindowOptions, false, 0, true);
+			}
+			
+			
+			private function saveWindowOptions(e:Event):void
+			{
+				MonsterDebuggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.CodeWindow");
+			}
+
+
+			/**
+			 * The windows is being closed
+			 */
+			private function onClosing():void
+			{
+				if (_colorThread != null) {
+					_colorThread.stop();
+				}
+			}
+
+
+			private function loadFile():void
+			{
+				// Get file
+				var file:File = new File(_path);
+				if (!file.exists) {
+					return;
+				}
+
+				// Read string
+				var fileStream:FileStream = new FileStream();
+				fileStream.open(file, FileMode.READ);
+				var fileString:String = fileStream.readMultiByte(file.size, File.systemCharset);
+				fileStream.close();
+
+				// Set text
+				codeArea.text = fileString.split("\r").join("");
+
+				// Resize
+				resizeLines();
+
+				// Start highlight
+				if (!_codeTimer) {
+					_codeTimer = new Timer(200, 1);
+					_codeTimer.addEventListener(TimerEvent.TIMER, doPrettyPrint);
+					_codeTimer.start();
+				}
+			}
+
+
+			private function onChange():void
+			{
+				// resizeLines();
+				// codeHighlight();
+			}
+
+
+			private function doPrettyPrint(event:TimerEvent = null):void
+			{
+				if (!_codeStylesheet) {
+					_codeStylesheet = new StyleSheet();
+					_codePrettyPrint = new CodePrettyPrint();
+					_codeStylesheet.parseCSS(_cssString);
+				}
+				if (_codePrettyPrint.asyncRunning) {
+					_codePrettyPrint.prettyPrintStopAsyc = true;
+					callLater(doPrettyPrint);
+					return;
+				}
+
+				if (_pfasyncrunning) {
+					_pfasyncstop = true;
+					callLater(doPrettyPrint);
+					return;
+				}
+				codeHighlightInPlace();
+			}
+
+
+			private function codeHighlightInPlace():void
+			{
+				_asyncRunning = true;
+				_codePrettyPrint.prettyPrintAsync(codeArea.text, null, codeInPlaceComplete, lexInt, this.systemManager);
+
+				// Set color and selection
+				var range:TextRange = new TextRange(lineNum, false, lineNum.getTextField().getLineOffset(_line - 1), lineNum.getTextField().getLineOffset(_line - 1) + lineNum.getTextField().getLineLength(_line - 1));
+				range.color = 0xff0000;
+				range.fontWeight = "bold";
+
+				// Jump to line
+				jumpToLine();
+			}
+
+
+			private function codeInPlaceComplete():void
+			{
+				if (_pfasyncrunning ) {
+					_pfasyncstop = true;
+					callLater(codeInPlaceComplete);
+					return;
+				}
+				_asyncRunning = false;
+				pfinit(0, codeArea.length);
+				_colorThread = new PseudoThread(this.systemManager, processFormattedCodeAsync, this, [0, codeArea.length, codePFComplete, 0], 3, 2);
+			}
+
+
+			private function processFormattedCodeAsync(startIdx:int, endIdx:int, completeFn:Function, optIdx:int = 0):Boolean
+			{
+				if (_pfasyncstop) {
+					_pfasyncrunning = false;
+					_pfasyncstop = false;
+					return false;
+				}
+				_pfasyncrunning = true;
+				if (_arr == null || _srclen < 1) {
+					_pfasyncrunning = false;
+					return false;
+				}
+				var tr:TextRange;
+				var thecolor:Object;
+				var i:int = optIdx;
+				if (i < _len) {
+					if (_arr[i] == 0 && _firstNode == false) {
+						_firstNode = true;
+						return true;
+					} else if (_arr[i] == 0 && _firstNode == true) {
+						_firstNode = false;
+						_firstIndex = i;
+					}
+					if (i - 2 > 0) {
+						if (_arr[i - 2] != _arr[i] && _arr[i] < codeArea.text.length) {
+							tr = new TextRange(codeArea, false, _arr[i - 2] + startIdx, _arr[i] + startIdx);
+							thecolor = _codeStylesheet.getStyle("." + _arr[i - 1]).color;
+							tr.color = thecolor;
+						}
+					}
+					return true;
+				}
+				if (i > 0) {
+					i -= 2;
+					if (_arr[i] + startIdx < endIdx) {
+						tr = new TextRange(codeArea, false, _arr[i] + startIdx, endIdx);
+						thecolor = _codeStylesheet.getStyle("." + _arr[i + 1]).color;
+						var totlen:int = codeArea.text.length;
+						if ( totlen >= endIdx ) {
+							tr.color = thecolor;
+						}
+					}
+				}
+				if (completeFn != null) {
+					completeFn();
+				}
+				_pfasyncrunning = false;
+				return false;
+			}
+
+
+			private function codePFComplete():void
+			{
+				//
+			}
+
+
+			private function lexInt(idx:int, total:int):void
+			{
+				if ( idx > 0 && idx % 5 == 0 ) {
+					// "Lexing (" + int((idx / total) * 100) + "%)...";
+				}
+			}
+
+
+			private function pfinit(startIdx:int, endIdx:int):void
+			{
+				_codeStylesheet = _codeStylesheet;
+				_srclen = endIdx - startIdx;
+				_arr = _codePrettyPrint.mainDecorations;
+				_len = _arr.length;
+				_desclen = codeArea.text.length;
+				_firstNode = false;
+				_firstIndex = 0;
+				_pfasyncrunning = false;
+				_pfasyncstop = false;
+			}
+
+
+			private function resizeLines():void
+			{
+				lineNum.text = "";
+				var code:String = codeArea.text;
+				var lines:Array = code.split("\n");
+				var lineCount:int = lines.length;
+				for (var i:int = 1; i <= lineCount; i++) {
+					lineNum.text = lineNum.text + i + "\n";
+				}
+			}
+
+
+			private function scrollLines():void
+			{
+				lineNum.verticalScrollPosition = codeArea.verticalScrollPosition;
+			}
+
+
+			private function jumpToLine():void
+			{
+				var lineHeight:int = _line * 18;
+				if (lineHeight > codeArea.height) {
+					codeArea.verticalScrollPosition = _line - ((codeArea.height / 18) / 2);
+					lineNum.verticalScrollPosition = _line - ((codeArea.height / 18) / 2);
+				}
+			}
+
+
+			private function menuHandler(event:FlexNativeMenuEvent):void
+			{
+				if (event.label == "Close") {
+					close();
+				} else if (event.label == "Save") {
+					save();
+				} else if (event.label == "Save as") {
+					saveAs();
+				}
+			}
+
+
+			private function save(e:Event = null):void
+			{
+				var file:File = new File(_path);
+				file.save(codeArea.text);
+			}
+
+
+			private function saveAs(e:Event = null):void
+			{
+				var fileAs:File = new File(_path);
+				fileAs.addEventListener(Event.SELECT, onSaveAs);
+				fileAs.browseForSave("Save As");
+			}
+
+
+			private function onSaveAs(e:Event):void
+			{
+				var f:File = e.currentTarget as File;
+				var fs:FileStream = new FileStream();
+				fs.open(f, FileMode.WRITE);
+				fs.close();
+			}
+
+
+			private function onDeactivate(event:AIREvent):void
+			{
+				MonsterDebuggerMenu.removeEventListener(MonsterDebuggerMenu.SAVE, save);
+				MonsterDebuggerMenu.removeEventListener(MonsterDebuggerMenu.SAVE_AS, saveAs);
+				MonsterDebuggerMenu.disableSaveItem(true);
+			}
+
+
+			private function onActivate(event:AIREvent):void
+			{
+				MonsterDebuggerMenu.addEventListener(MonsterDebuggerMenu.SAVE, save);
+				MonsterDebuggerMenu.addEventListener(MonsterDebuggerMenu.SAVE_AS, saveAs);
+				MonsterDebuggerMenu.enableSaveItem(true);
+			}
+		]]>
+	</fx:Script>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace panels "components.panels.*";
+		
+		.customScrollBarStyle
+		{
+			thumb-skin: ClassReference("skins.scrollbar.vertical.ScrollbarThumbSkin");
+			track-skin: ClassReference("skins.scrollbar.vertical.ScrollbarTrackSkin");
+			down-arrow-skin: Embed(source="../../../assets/scroll_bar_button_down.png");
+			up-arrow-skin: Embed(source="../../../assets/scroll_bar_button_up.png");
+		}
+		
+	</fx:Style>
+	<fx:Declarations>
+		<fx:XML id="xmlMenuData" format="e4x">
+			<menubar>
+				<menu label="File">
+					<menuitem label="Save" ctrlKey="true" key="s"/>
+					<menuitem label="Save as" ctrlKey="true" shiftKey="true" key="s"/>
+					<menuitem label="Close" ctrlKey="true" key="w"/>
+				</menu>
+			</menubar>
+		</fx:XML>
+		<mx:FlexNativeMenu id="xmlBasedMenu" showRoot="false" labelField="@label" keyEquivalentField="@key" dataProvider="{xmlMenuData}" itemClick="menuHandler(event)" menuShow="true"/>
+	</fx:Declarations>
+	<mx:TextArea left="0" top="0" bottom="0" width="40" id="lineNum" verticalScrollPolicy="off" editable="false" textAlign="right" contentBackgroundColor="0xf5f5f5" fontFamily="Courier New, Courier, mono" fontSize="12" htmlText=""/>
+	<mx:TextArea left="39" top="0" bottom="0" right="0" id="codeArea" focusAlpha="0" wordWrap="false" change="onChange()" scroll="scrollLines()" verticalScrollBarStyleName="customScrollBarStyle" horizontalScrollBarStyleName="customScrollBarStyle" fontFamily="Courier New, Courier, mono" fontSize="12"/>
+</s:Window>

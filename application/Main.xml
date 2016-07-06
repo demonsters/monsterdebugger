@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/3.0">
+	<id>com.demonsters.debugger</id>
+	<filename>Monster Debugger</filename>
+	<name>Monster Debugger</name>
+	<versionNumber>3.02</versionNumber>
+	<description>Open source debugger for Adobe Flash, Flex and AIR projects</description>
+	<copyright>Copyright 2011, De Monsters</copyright>
+	<initialWindow>
+		<content>Main.swf</content>
+		<title>Monster Debugger</title>
+		<systemChrome>standard</systemChrome>
+		<transparent>false</transparent>
+		<visible>false</visible>
+		<minimizable>true</minimizable>
+		<maximizable>true</maximizable>
+		<resizable>true</resizable>
+		<width>1200</width>
+		<height>800</height>
+		<minSize>600 400</minSize>
+	</initialWindow>
+	<icon>
+		<image16x16>icons/icon_16.png</image16x16>
+		<image32x32>icons/icon_32.png</image32x32>
+		<image48x48>icons/icon_48.png</image48x48>
+		<image128x128>icons/icon_128.png</image128x128>
+	</icon>
+	<supportedProfiles>desktop</supportedProfiles>
+	<customUpdateUI>false</customUpdateUI>
+	<allowBrowserInvocation>true</allowBrowserInvocation>
+</application>

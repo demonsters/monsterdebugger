@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" xmlns:ticker="components.ticker.*" width="100%" height="27" backgroundColor="{_backgroundColor}" creationComplete="init()" mouseOver="onOver(event)" mouseOut="onOut(event)">
+	<fx:Declarations>
+		<mx:HTTPService id="tickerData" url="{MonsterDebuggerConstants.PATH_TICKER}" resultFormat="e4x" result="tickerDataHandler(event)" fault="tickerErrorHandler(event)"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+
+			import com.demonsters.debugger.MonsterDebuggerConstants;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import flash.events.Event;
+			import flash.events.MouseEvent;
+			import flash.events.TimerEvent;
+			import flash.net.URLRequest;
+			import flash.net.navigateToURL;
+			import flash.utils.Timer;
+
+
+			private var _timer:Timer;
+
+
+			[Bindable]
+			private var tickerMessage:String = "Monster Debugger 3 specially made for by Digital Creative Agency De Monsters";
+			private var tickerURL:String = "http://www.demonsters.com";
+			private var tickerMessages:Vector.<String>;
+			private var tickerURLs:Vector.<String>;
+
+
+			[Bindable]
+			private var _backgroundColor:uint = 0x5C5C5C;
+			private var _counter:int;
+
+
+			public function init():void
+			{
+				tickerData.send();
+			}
+
+
+			/**
+			 * The ticker data has been received
+			 * @param event: Result event from the XML loader
+			 */
+			private function tickerDataHandler(event:ResultEvent):void
+			{
+				// Save the data
+				var data:XML = event.result as XML;
+				var tickers:XMLList = data..ticker;
+
+				tickerMessages = new Vector.<String>(tickers.length());
+				tickerURLs = new Vector.<String>(tickers.length());
+
+				var i:int = 0;
+				for each (var t:XML in tickers) {
+					tickerMessages[i] = t.message;
+					tickerURLs[i] = t.url;
+					i++;
+				}
+
+				if (tickerMessages.length > 0) {
+					tickerMessage = tickerMessages[0];
+					tickerURL = tickerURLs[0];
+					_counter = 0;
+					counterNavigation.visible = false;
+					if (tickerMessages.length > 1) {
+						_timer = new Timer(1000 * 60 * 5);
+						_timer.addEventListener(TimerEvent.TIMER, timer);
+						_timer.start();
+						counterNavigation.counter = (_counter + 1) + "/" + tickerMessages.length;
+						counterNavigation.visible = true;
+					}
+				}
+
+			}
+
+
+			private function timer(event:TimerEvent):void
+			{
+				_counter++;
+				if (_counter == tickerMessages.length) {
+					_counter = 0;
+				}
+				tickerMessage = tickerMessages[_counter];
+				tickerURL = tickerURLs[_counter];
+
+				counterNavigation.counter = (_counter + 1) + "/" + tickerMessages.length;
+			}
+
+
+			/**
+			 * The ticker data can't be loaded
+			 * Probably no internet connection
+			 * @param event: Error from the XML loader
+			 */
+			private function tickerErrorHandler(event:FaultEvent):void
+			{
+				//
+			}
+
+
+			private function advertisementClick(event:Event):void
+			{
+				if (event.target == advertisementLabel) {
+					if (tickerURL != "") {
+						navigateToURL(new URLRequest(tickerURL));
+					}
+				}
+			}
+
+
+			private function onOver(e:MouseEvent):void
+			{
+				// _backgroundColor = 0x7E7E7E;
+			}
+
+
+			private function onOut(e:MouseEvent):void
+			{
+				_backgroundColor = 0x5C5C5C;
+			}
+
+			private function next():void
+			{
+				_counter++;
+				if (_counter == tickerMessages.length || _counter < 0) {
+					_counter = 0;
+				}
+				tickerMessage = tickerMessages[_counter];
+				tickerURL = tickerURLs[_counter];
+
+				counterNavigation.counter = (_counter + 1) + "/" + tickerMessages.length;
+			}
+
+			private function previous():void
+			{
+				_counter--;
+				if (_counter < 0) {
+					_counter = tickerMessages.length - 1;
+				}
+				tickerMessage = tickerMessages[_counter];
+				tickerURL = tickerURLs[_counter];
+
+				counterNavigation.counter = (_counter + 1) + "/" + tickerMessages.length;
+			}
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle" paddingLeft="10" paddingRight="10"/>
+	</s:layout>
+	<s:Label id="advertisementLabel" text="{tickerMessage}" x="10" y="11" color="#ffffff" fontWeight="normal" width="100%" lineBreak="explicit" click="advertisementClick(event)" mouseOver="onOver(event)" mouseOut="onOut(event)" height="10"/>
+	<ticker:TickerNavigationDark id="counterNavigation" counter="0" nextItem="next()" previousItem="previous()"/>
+</s:SkinnableContainer>

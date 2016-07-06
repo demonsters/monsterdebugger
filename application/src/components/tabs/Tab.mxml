@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" xmlns:tabs="components.tabs.*" xmlns:ticker="components.ticker.*" width="100%" height="100%" click="onInit()">
+	<fx:Script>
+		<![CDATA[
+
+		//	import com.greensock.TweenLite;
+		//	import com.greensock.easing.Quad;
+		//	import mx.collections.ArrayCollection;
+
+//			[Bindable]
+//			private var data:ArrayCollection = new ArrayCollection([
+//				{method:"function1", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function2", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function3", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function4", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function5", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function6", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function7", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function8", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function9", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function10", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function11", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function12", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function13", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function14", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function15", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function16", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function17", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function18", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function19", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function20", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function21", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function22", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function23", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function24", time:Math.random()*100, count:Math.random()*400}, 
+//				{method:"function25", time:Math.random()*100, count:Math.random()*400}, 
+//			]);
+
+			private function onInit():void
+			{
+				
+//				if (!backend.visible) {
+//					backend.top = 1000;
+//					backend.visible = true;
+//					TweenLite.to(frontend, 0.5, {bottom:-1000, ease:Quad.easeOut});
+//					TweenLite.to(backend, 0.5, {top:6, ease:Quad.easeOut});
+//				} else {
+//					TweenLite.to(backend, 0.5, {top:1500, ease:Quad.easeOut, onComplete:function():void {
+//						backend.visible = false;
+//					}});
+//				}
+			}
+
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<mx:SolidColorStroke id="stroke1" color="#0099FF" weight="2"/>
+	    <mx:SolidColorStroke id="stroke2" color="#C0FDAC" weight="2"/>
+		<mx:SolidColorStroke id="axisStroke" color="#FFFFFF" alpha=".2" weight="2"/>
+		<mx:SolidColorStroke id="lineStroke" color="#FFFFFF" alpha=".2" weight="1"/>
+	</fx:Declarations>
+	<mx:VBox horizontalScrollPolicy="off" verticalScrollPolicy="off" width="100%" height="100%" top="6" left="4" right="4" bottom="4" fontSize="11" verticalGap="4">
+		<s:SkinnableContainer id="disconnectMessageBox" visible="false" includeInLayout="false" width="100%" height="27" skinClass="skins.ConnectionLost">
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+			<s:Label text="Connection lost" color="#ffffff" y="9" x="10" fontWeight="bold"/>
+			<!-- <s:Button id="reconnectButton" label="Reopen Application" height="20" skinClass="skins.button.DefaultButton" width="110" y="4" x="106"/> -->
+			<!-- <s:Button id="clearButton" label="Button" width="9" height="9" skinClass="skins.button.ClearButtonWhite" y="9" right="9"/> -->
+		</s:SkinnableContainer>
+		<mx:VBox id="frontend" horizontalScrollPolicy="off" verticalScrollPolicy="off" width="100%" height="100%" verticalGap="5">
+			<mx:VDividedBox horizontalScrollPolicy="off" verticalScrollPolicy="off" width="100%" height="100%" liveDragging="true" verticalGap="5" dividerSkin="skins.dividerBox.DividerSkin">
+				<s:HGroup width="100%" height="60%" id="horizontalsplit">
+					<mx:HDividedBox horizontalScrollPolicy="off" verticalScrollPolicy="off" width="100%" height="100%" liveDragging="true" horizontalGap="5" dividerSkin="skins.dividerBox.DividerSkin">
+						<tabs:TabPanel width="70%" height="100%" id="leftPanel"/>
+						<tabs:TabPanel width="30%" height="100%" id="middlePanel"/>
+						<s:VGroup width="217" height="100%" gap="4" id="rightGroup">
+							<tabs:TabPanel width="217" height="110" id="rightPanelTop"/>
+							<tabs:TabPanel width="100%" height="100%" id="rightPanelBottom"/>
+						</s:VGroup>
+					</mx:HDividedBox>
+				</s:HGroup>
+				<tabs:TabPanel width="100%" height="40%" id="bottomPanel"/>
+			</mx:VDividedBox>
+			<ticker:Ticker width="100%" height="27"/>
+		</mx:VBox>
+	</mx:VBox>
+	<!--
+	<mx:VBox id="backend" width="100%" height="100%" backgroundColor="#222222" backgroundAlpha="1" top="6" left="4" right="4" bottom="4" paddingTop="20" paddingBottom="20" paddingLeft="20" paddingRight="20" visible="false">
+		<mx:LineChart id="linechart" color="#FFFFFF" height="100%" width="100%" showDataTips="false" dataProvider="{data}">
+			
+			<mx:seriesFilters>
+				<fx:Array>
+				</fx:Array>
+			</mx:seriesFilters>
+
+			<mx:horizontalAxis>
+				<mx:CategoryAxis id="xAxis" categoryField="method"/>
+			</mx:horizontalAxis>
+			<mx:verticalAxis>
+				<mx:LinearAxis id="yAxis"/>
+			</mx:verticalAxis>
+
+			<mx:horizontalAxisRenderers>
+				<mx:AxisRenderer axis="{xAxis}">
+					<mx:axisStroke>{axisStroke}</mx:axisStroke>
+					<mx:tickStroke>{axisStroke}</mx:tickStroke>
+					<mx:minorTickStroke>{axisStroke}</mx:minorTickStroke>
+				</mx:AxisRenderer>
+			</mx:horizontalAxisRenderers>
+			<mx:verticalAxisRenderers>
+				<mx:AxisRenderer axis="{yAxis}">
+					<mx:axisStroke>{axisStroke}</mx:axisStroke>
+					<mx:tickStroke>{axisStroke}</mx:tickStroke>
+					<mx:minorTickStroke>{axisStroke}</mx:minorTickStroke>
+				</mx:AxisRenderer>
+			</mx:verticalAxisRenderers>
+
+			<mx:series>
+				<mx:LineSeries yField="time" displayName="time" lineStroke="{stroke1}"/>
+				<mx:LineSeries yField="count" displayName="count" lineStroke="{stroke2}"/>
+			</mx:series>
+
+			<mx:backgroundElements>
+				<mx:GridLines>
+					<mx:horizontalStroke>{lineStroke}</mx:horizontalStroke>
+				</mx:GridLines>
+			</mx:backgroundElements>
+		</mx:LineChart>
+	</mx:VBox>
+	-->
+	
+</s:NavigatorContent>

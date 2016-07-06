@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5" blendMode="normal">
+	<fx:Metadata>
+		<![CDATA[ 
+			[HostComponent("spark.components.TextArea")]
+		]]>
+	</fx:Metadata>
+	<fx:Script fb:purpose="styling">
+		<![CDATA[
+
+			private var lineBreakChanged:Boolean;
+			private var paddingChanged:Boolean;
+			private var verticalAlignChanged:Boolean;
+
+			static private const exclusions:Array = ["background", "scroller"];
+			static private const contentFill:Array = ["bgFill"];
+
+			override public function get colorizeExclusions():Array {
+				return exclusions;
+			}
+
+			override public function get contentItems():Array {
+				return contentFill;
+			};
+
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				if (lineBreakChanged) {
+					updateStringStyle("lineBreak");
+					lineBreakChanged = false;
+				}
+				if (paddingChanged) {
+					updatePadding();
+					paddingChanged = false;
+				}
+				if (verticalAlignChanged) {
+					updateStringStyle("verticalAlign");
+					verticalAlignChanged = false;
+				}
+			}
+
+			override protected function initializationComplete():void
+			{
+				useChromeColor = true;
+				super.initializationComplete();
+			}
+
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+			}
+
+			private function updatePadding():void
+			{
+				if (!textDisplay) return;
+				var padding:Number;
+				padding = getStyle("paddingLeft");
+				if (textDisplay.getStyle("paddingLeft") != padding)
+					textDisplay.setStyle("paddingLeft", padding);
+				padding = getStyle("paddingTop");
+				if (textDisplay.getStyle("paddingTop") != padding)
+					textDisplay.setStyle("paddingTop", padding);
+				padding = getStyle("paddingRight");
+				if (textDisplay.getStyle("paddingRight") != padding)
+					textDisplay.setStyle("paddingRight", padding);
+				padding = getStyle("paddingBottom");
+				if (textDisplay.getStyle("paddingBottom") != padding)
+					textDisplay.setStyle("paddingBottom", padding);
+			}
+
+			private function updateStringStyle(styleName:String):void
+			{
+				if (!textDisplay) return;
+				var style:String;
+				style = getStyle(styleName);
+				if (textDisplay.getStyle(styleName) != style)
+					textDisplay.setStyle(styleName, style);
+			}
+
+			override public function styleChanged(styleProp:String):void
+			{
+				var allStyles:Boolean = !styleProp || styleProp == "styleName";
+				super.styleChanged(styleProp);
+				if (allStyles || styleProp.indexOf("lineBreak") == 0) {
+					lineBreakChanged = true;
+					invalidateProperties();
+				}
+				if (allStyles || styleProp.indexOf("padding") == 0) {
+					paddingChanged = true;
+					invalidateProperties();
+				}
+				if (allStyles || styleProp.indexOf("verticalAlign") == 0) {
+					verticalAlignChanged = true;
+					invalidateProperties();
+				}
+			}
+
+			private static const focusExclusions:Array = ["textDisplay"];
+
+			override public function get focusSkinExclusions():Array {
+				return focusExclusions;
+			}
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled" stateGroups="disabledStates"/>
+		<s:State name="normalWithPrompt"/>
+		<s:State name="disabledWithPrompt" stateGroups="disabledStates"/>
+	</s:states>
+	<s:Rect id="border" left="0" right="0" top="0" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke id="borderStroke" weight="1" color="#FFFFFF"/>
+		</s:stroke>
+	</s:Rect>
+	<s:Rect id="background" left="1" right="1" top="1" bottom="1">
+		<s:fill>
+			<s:SolidColor id="bgFill" color="#FFFFFF"/>
+		</s:fill>
+	</s:Rect>
+	<s:Scroller id="scroller" left="0" top="0" right="0" bottom="0" minViewportInset="1" measuredSizeIncludesScrollBars="false" hasFocusableChildren="false">
+		<s:RichEditableText id="textDisplay" heightInLines="10" widthInChars="15"/>
+	</s:Scroller>
+</s:SparkSkin>

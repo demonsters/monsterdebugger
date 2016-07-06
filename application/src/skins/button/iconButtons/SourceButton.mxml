@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" width="100%" height="35" alpha.disabled="0.5">
+	<fx:Metadata>
+		<![CDATA[ 
+		[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:Rect id="border" left="0" right="0" top="0" bottom="1">
+		<s:fill>
+			<s:SolidColor color="#b2b2b2"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect id="fill" left="1" right="1" top="1" bottom="2">
+		<s:fill>
+			<s:SolidColor color="#e4e4e4" color.over="#ededed"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect id="highlight" left="1" right="1" top="1" height="1">
+		<s:fill>
+			<s:SolidColor color="#f8f8f8" color.over="#f8f8f8"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect id="shadow" left="1" right="1" bottom="0" height="1">
+		<s:fill>
+			<s:SolidColor color="#000000" alpha="0.2"/>
+		</s:fill>
+	</s:Rect>
+	<s:BitmapImage source="@Embed('../../../../assets/icon_source.png')" left="13" top="9"/>
+	<s:Label id="labelDisplay" color="#000000" textAlign="left" maxDisplayedLines="1" fontWeight="bold" width="100%" left="37" top="13">
+	</s:Label>
+</s:SparkSkin>

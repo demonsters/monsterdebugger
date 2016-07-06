@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="components.*" xmlns:tabs="components.tabs.*" width="900" height="500" title="Monster Debugger - Help" showStatusBar="false" creationComplete="onCreationComplete()" initialize="onInitialize()">
+	<s:layout>
+		<s:VerticalLayout paddingTop="0" paddingLeft="0" paddingRight="0" paddingBottom="0"/>
+	</s:layout>
+	<fx:Script>
+		<![CDATA[
+
+			import components.panels.HTMLPanel;
+			import com.demonsters.debugger.MonsterDebuggerMenu;
+			import com.demonsters.debugger.MonsterDebuggerUtils;
+
+
+			private var _panelHelp:HTMLPanel;
+			private var _panelAsdoc:HTMLPanel;
+
+
+			private function onInitialize():void
+			{
+				visible = false;
+			}
+
+
+			private function onCreationComplete():void
+			{
+				MonsterDebuggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.HelpWindow");
+				visible = true;
+				
+				// Set on top
+				if (MonsterDebuggerMenu.mainWindow.alwaysInFront) {
+					alwaysInFront = true;
+				}
+				
+				// Add event listener to the stage
+				stage.addEventListener(KeyboardEvent.KEY_UP, function(event:KeyboardEvent):void {
+					if (event.charCode == 27) {
+						close();
+						// The users pressed ESC
+					}
+				});
+				
+				// Create the panels
+				_panelHelp = new HTMLPanel();
+				_panelAsdoc = new HTMLPanel();
+				
+				// Create the names
+				_panelHelp.name = "";
+				_panelHelp.label = "Help";
+				_panelHelp.location = "help/regular/index.html";
+				_panelAsdoc.scrollPolicy = "auto";
+				_panelAsdoc.name = "";
+				_panelAsdoc.label = "ASDoc";
+				_panelAsdoc.location = "help/asdoc/index.html";
+				_panelAsdoc.scrollPolicy = "off";
+				
+				// Add the panels
+				panel.addPanelItem(_panelHelp);
+				panel.addPanelItem(_panelAsdoc);
+				
+				nativeWindow.addEventListener(Event.CLOSING, saveWindowOptions, false, 0, true);
+			}
+			
+			
+			private function saveWindowOptions(e:Event):void
+			{
+				MonsterDebuggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.HelpWindow");
+			}
+
+		]]>
+	</fx:Script>
+	<tabs:TabPanel width="100%" height="100%" id="panel" name=""/>
+</s:Window>

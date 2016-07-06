@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="500" title="Monster Debugger - Snapshot" showStatusBar="false" creationComplete="onCreationComplete()" initialize="onInitialize()" menu="{xmlBasedMenu}">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Script>
+		<![CDATA[
+
+			import com.demonsters.debugger.MonsterDebuggerMenu;
+			import com.demonsters.debugger.MonsterDebuggerUtils;
+			import mx.events.FlexNativeMenuEvent;
+			import mx.graphics.codec.PNGEncoder;
+			import flash.filesystem.File;
+
+
+			// The item to show
+			private var _bitmapData:BitmapData;
+			private var _bitmap:Bitmap;
+			private var _width:Number = 0;
+			private var _height:Number = 0;
+			private var _exportDir:File = File.documentsDirectory;
+
+
+			/**
+			 * Set the data in the snapshot window
+			 * @param item: The object containing all the data
+			 */
+			public function setData(item:Object):void
+			{
+				// Save the item
+				_bitmapData = item.bitmapData;
+				_bitmap = new Bitmap(_bitmapData, PixelSnapping.NEVER, false);
+				_width = item.width;
+				_height = item.height;
+			}
+
+
+			private function onInitialize():void
+			{
+				visible = false;
+			}
+
+
+			/**
+			 * The application is ready
+			 */
+			private function onCreationComplete():void
+			{
+				if (Capabilities.os.substr(0, 3) == "Mac") {
+					stage.nativeWindow.addEventListener(Event.ACTIVATE, onActivate);
+					stage.nativeWindow.addEventListener(Event.DEACTIVATE, onDeactivate);
+				}
+
+				MonsterDebuggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.SnapshotWindow");
+				visible = true;
+				
+				// Set on top
+				if (MonsterDebuggerMenu.mainWindow.alwaysInFront) {
+					alwaysInFront = true;
+				}
+				
+				// Add event listener to the stage
+				stage.addEventListener(KeyboardEvent.KEY_UP, function(event:KeyboardEvent):void {
+					if (event.charCode == 27) {
+						close();
+						// The users pressed ESC
+					}
+				});
+
+				// Save the bitmap
+				imageCanvas.rawChildren.addChild(_bitmap);
+				imageCanvas.width = _width;
+				imageCanvas.height = _height;
+				
+				nativeWindow.addEventListener(Event.CLOSING, saveWindowOptions, false, 0, true);
+			}
+			
+			
+			private function saveWindowOptions(e:Event):void
+			{
+				MonsterDebuggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.SnapshotWindow");
+			}
+
+
+			private function menuHandler(event:FlexNativeMenuEvent):void
+			{
+				if (event.label == "Close") {
+					close();
+				} else if (event.label == "Save") {
+					save();
+				}
+			}
+
+
+			private function save(e:Event = null):void
+			{
+				var image:PNGEncoder = new PNGEncoder();
+				var imagedata:ByteArray = image.encode(_bitmapData);
+				_exportDir.save(imagedata, "Snapshot.png");
+			}
+
+
+			private function onDeactivate(event:Event):void
+			{
+				MonsterDebuggerMenu.removeEventListener(MonsterDebuggerMenu.SAVE_AS, save);
+				MonsterDebuggerMenu.removeEventListener(MonsterDebuggerMenu.SAVE, save);
+				MonsterDebuggerMenu.disableSaveItem(true);
+			}
+
+
+			private function onActivate(event:Event):void
+			{
+				MonsterDebuggerMenu.addEventListener(MonsterDebuggerMenu.SAVE_AS, save);
+				MonsterDebuggerMenu.addEventListener(MonsterDebuggerMenu.SAVE, save);
+				MonsterDebuggerMenu.enableSaveItem(true);
+			}
+		]]>
+	</fx:Script>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace panels "components.panels.*";
+		
+		.customScrollBarStyle
+		{
+			thumb-skin: ClassReference("skins.scrollbar.vertical.ScrollbarThumbSkin");
+			track-skin: ClassReference("skins.scrollbar.vertical.ScrollbarTrackSkin");
+			down-arrow-skin: Embed(source="../../../assets/scroll_bar_button_down.png");
+			up-arrow-skin: Embed(source="../../../assets/scroll_bar_button_up.png");
+		}
+		
+	</fx:Style>
+	<fx:Declarations>
+		<fx:XML id="xmlMenuData" format="e4x">
+			<menubar>
+				<menu label="File">
+					<menuitem label="Save" ctrlKey="true" key="s"/>
+					<menuitem label="Close" ctrlKey="true" key="w"/>
+				</menu>
+			</menubar>
+		</fx:XML>
+		<mx:FlexNativeMenu id="xmlBasedMenu" showRoot="false" labelField="@label" keyEquivalentField="@key" dataProvider="{xmlMenuData}" itemClick="menuHandler(event)" menuShow="true"/>
+	</fx:Declarations>
+	<mx:Canvas top="0" left="0" right="0" bottom="0" verticalScrollPolicy="auto" horizontalScrollPolicy="auto" verticalScrollBarStyleName="customScrollBarStyle" horizontalScrollBarStyleName="customScrollBarStyle">
+		<mx:Canvas id="imageCanvas" width="0" height="0" visible="true"/>
+	</mx:Canvas>
+</s:Window>

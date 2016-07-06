@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="500" title="Monster Debugger - Trace" showStatusBar="false" creationComplete="onCreationComplete()" initialize="onInitialize()">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Script>
+		<![CDATA[
+
+			import com.demonsters.debugger.MonsterDebuggerConstants;
+			import com.demonsters.debugger.MonsterDebuggerMenu;
+			import com.demonsters.debugger.MonsterDebuggerUtils;
+			import mx.collections.XMLListCollection;
+
+			// Icons
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconDefault:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/icon_root.png")]
+			public var iconRoot:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/icon_warning.png")]
+			public var iconWarning:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_blue.png")]
+			public var iconDisplayObject:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconVariable:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_grey.png")]
+			public var iconVariableReadonly:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconVariableWriteonly:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconXMLNode:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconXMLValue:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconXMLAttribute:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconFunction:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconEdit:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconLock:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/property_green.png")]
+			public var iconSave:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/folder_open.png")]
+			public var iconFolderOpen:Class;
+
+			[Bindable]
+			[Embed(source="../../../assets/folder_closed.png")]
+			public var iconFolderClosed:Class;
+
+			[Bindable]
+			private var xml:XMLListCollection = new XMLListCollection();
+
+
+			// The item to show
+			private var _line:int = 0;
+			private var _time:String = "";
+			private var _target:String = "";
+			private var _message:String = "";
+			private var _xml:XML = new XML();
+
+
+			/**
+			 * Set the data in the trace window
+			 * @param item: The object containing all the data
+			 */
+			public function setData(item:Object):void
+			{
+				// Save the item
+				_line = item.line;
+				_time = item.time;
+				_target = item.target;
+				_message = item.message;
+				_xml = item.xml;
+			}
+
+
+			private function onInitialize():void
+			{
+				visible = false;
+			}
+
+
+			private function onCreationComplete():void
+			{
+				MonsterDebuggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.TraceWindow");
+				visible = true;
+				
+				// Set on top
+				if (MonsterDebuggerMenu.mainWindow.alwaysInFront) {
+					alwaysInFront = true;
+				}
+				
+				// Add event listener to the stage
+				stage.addEventListener(KeyboardEvent.KEY_UP, function(event:KeyboardEvent):void {
+					if (event.charCode == 27) {
+						close();
+						// The users pressed ESC
+					}
+				});
+
+				// Hide by default
+				textArea.visible = false;
+				tree.visible = false;
+
+				var t:String = _xml.node.@type;
+				var l:int = _xml..node.length();
+				if (l == 2 && t == MonsterDebuggerConstants.TYPE_NULL || t == MonsterDebuggerConstants.TYPE_STRING || t == MonsterDebuggerConstants.TYPE_BOOLEAN || t == MonsterDebuggerConstants.TYPE_NUMBER || t == MonsterDebuggerConstants.TYPE_INT || t == MonsterDebuggerConstants.TYPE_UINT)
+				{
+				 	// Set the textfield
+				 	textArea.text = MonsterDebuggerUtils.htmlUnescape(_xml..node[1].@value);
+				 	textArea.visible = true;
+				 	
+				} else {
+					
+					// Set the tree item
+					xml.source = null;
+					xml.source = _xml.children();
+					tree.openItems = _xml.children();
+					tree.visible = true;
+				}
+				
+				nativeWindow.addEventListener(Event.CLOSING, saveWindowOptions, false, 0, true);
+			}
+			
+			
+			private function saveWindowOptions(e:Event):void
+			{
+				MonsterDebuggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.TraceWindow");
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace panels "components.panels.*";
+		
+		.customScrollBarStyle
+		{
+			thumb-skin: ClassReference("skins.scrollbar.vertical.ScrollbarThumbSkin");
+			track-skin: ClassReference("skins.scrollbar.vertical.ScrollbarTrackSkin");
+			down-arrow-skin: Embed(source="../../../assets/scroll_bar_button_down.png");
+			up-arrow-skin: Embed(source="../../../assets/scroll_bar_button_up.png");
+		}
+		
+	</fx:Style>
+	<mx:Tree id="tree" visible="false" dataProvider="{xml}" width="100%" height="100%" selectionDuration="0" borderStyle="none" editable="true" selectable="true" wordWrap="true" iconField="@icon" labelField="@label" openDuration="0" folderOpenIcon="{iconFolderOpen}" folderClosedIcon="{iconFolderClosed}" borderAlpha="0" selectionColor="#63BACF" rollOverColor="#BDEAF5" verticalScrollBarStyleName="customScrollBarStyle" color="#1A1A1A" showRoot="false" variableRowHeight="true"/>
+	<mx:TextArea id="textArea" visible="false" width="100%" height="100%" selectable="true" editable="true" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5"/>
+</s:Window>
