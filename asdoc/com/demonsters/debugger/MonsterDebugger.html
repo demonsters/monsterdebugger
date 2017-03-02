@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="../../../style.css" type="text/css" media="screen"><link rel="stylesheet" href="../../../print.css" type="text/css" media="print"><link rel="stylesheet" href="../../../override.css" type="text/css"><meta name="keywords" content="MonsterDebugger,com.demonsters.debugger.MonsterDebugger,VERSION,bytes,data,enabled,id,logger,breakpoint,breakpoint,clear,clear,initialize,initialize,inspect,inspect,log,read,snapshot,snapshot,trace,trace"><title>com.demonsters.debugger.MonsterDebugger</title></head><body><script language="javascript" type="text/javascript" src="../../../asdoc.js"></script><script language="javascript" type="text/javascript" src="../../../help.js"></script><script language="javascript" type="text/javascript" src="../../../cookies.js"></script><script language="javascript" type="text/javascript"><!--
+				asdocTitle = 'MonsterDebugger - Monster Debugger - documentation';
+				var baseRef = '../../../';
+				window.onload = configPage;
+			--></script>
+<script type="text/javascript">
+			scrollToNameAnchor();
+		</script><table class="titleTable" cellpadding="0" cellspacing="0" id="titleTable" style="display:none"><tr><td class="titleTableTitle" align="left">Monster Debugger - documentation</td><td class="titleTableTopNav" align="right"><a href="../../../package-summary.html" onclick="loadClassListFrame('../../../all-classes.html')">All Packages</a>&nbsp;|&nbsp;<a href="../../../class-summary.html" onclick="loadClassListFrame('../../../all-classes.html')">All Classes</a>&nbsp;|&nbsp;<a href="../../../all-index-A.html" onclick="loadClassListFrame('../../../index-list.html')">Index</a>&nbsp;|&nbsp;<a id="framesLink1" href="../../../index.html?com/demonsters/debugger/MonsterDebugger.html&amp;com/demonsters/debugger/class-list.html">Frames</a><a id="noFramesLink1" style="display:none" href="" onclick="parent.location=document.location"> No Frames </a></td><td class="titleTableLogo" align="right" rowspan="3"><img src="../../../images/logo.jpg" class="logoImage" alt=" Adobe Logo " title=" Adobe Logo "></td></tr><tr class="titleTableRow2"><td class="titleTableSubTitle" id="subTitle" align="left">MonsterDebugger</td><td class="titleTableSubNav" id="subNav" align="right"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a></td></tr><tr class="titleTableRow3"><td colspan="3">&nbsp;</td></tr></table><script language="javascript" type="text/javascript" xml:space="preserve">
+				<!--
+				
+					if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("MonsterDebugger"); titleBar_setSubNav(true,true,false,false,false,false,false,false,true,false,false	,false,false,false,false,false);}	
+				-->
+			</script><div xmlns:fn="http://www.w3.org/2005/xpath-functions" class="MainContent"><table class="classHeaderTable" cellpadding="0" cellspacing="0"><tr><td class="classHeaderTableLabel">Package</td><td><a href="package-detail.html" onclick="javascript:loadClassListFrame('class-list.html')">com.demonsters.debugger</a></td></tr><tr><td class="classHeaderTableLabel">Class</td><td class="classSignature">public  class  MonsterDebugger</td></tr><tr><td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">MonsterDebugger  <img src="../../../images/inherit-arrow.gif" title="Inheritance" alt="Inheritance" class="inheritArrow"> Object</td></tr></table><p></p><p></p><p></p>
+	 The Monster Debugger main class
+	 <p></p><br/><hr></div><a name="propertySummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Properties</div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableProperty"><tr><th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#enabled" class="signatureLink">enabled</a> : Boolean<div class="summaryTableDescription">[static] 
+		 Enables or disables the Monster Debugger.</div></td><td class="summaryTableOwnerCol">MonsterDebugger</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#logger" class="signatureLink">logger</a> : Function<div class="summaryTableDescription">[static] 
+		 Debugger for the Monster Debugger.</div></td><td class="summaryTableOwnerCol">MonsterDebugger</td></tr></table></div><a name="methodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#breakpoint()" class="signatureLink">breakpoint</a>(caller:*, id:String = breakpoint):void</div><div class="summaryTableDescription">[static] 
+		 Since version 3.0 the Monster Debugger supports breakpoints.</div></td><td class="summaryTableOwnerCol">MonsterDebugger</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#clear()" class="signatureLink">clear</a>():void</div><div class="summaryTableDescription">[static] 
+		 This will clear all traces in the connected Monster Debugger desktop application.</div></td><td class="summaryTableOwnerCol">MonsterDebugger</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#initialize()" class="signatureLink">initialize</a>(base:Object, address:String = 127.0.0.1):void</div><div class="summaryTableDescription">[static] 
+		 This will initialize the Monster Debugger, the client will start a socket connection 
+		 to the Monster Debugger desktop application and initialize the core functions like 
+		 memory- and fpsmonitor.</div></td><td class="summaryTableOwnerCol">MonsterDebugger</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#inspect()" class="signatureLink">inspect</a>(object:*):void</div><div class="summaryTableDescription">[static] 
+		 This function will change the base target of the Monster Debugger that was set in the initialize 
+		 function and send the new target to the desktop application for inspection.</div></td><td class="summaryTableOwnerCol">MonsterDebugger</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#log()" class="signatureLink">log</a>(... args):void</div><div class="summaryTableDescription">[static] 
+		 This is a copy of the classic Flash trace function where you can supply a comma separated 
+		 list of objects to trace.</div></td><td class="summaryTableOwnerCol">MonsterDebugger</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#snapshot()" class="signatureLink">snapshot</a>(caller:*, object:DisplayObject, person:String, label:String):void</div><div class="summaryTableDescription">[static] 
+		 Makes a snapshot of a DisplayObject and sends it to the desktop application.</div></td><td class="summaryTableOwnerCol">MonsterDebugger</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#trace()" class="signatureLink">trace</a>(caller:*, object:*, person:String, label:String, color:uint = 0x000000, depth:int = 5):void</div><div class="summaryTableDescription">[static] 
+		 The trace function of the Monster Debugger can be used to display standard objects like 
+		 Strings, Numbers, Arrays, etc.</div></td><td class="summaryTableOwnerCol">MonsterDebugger</td></tr></table></div><a name="constantSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Constants</div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableConstant"><tr><th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#VERSION" class="signatureLink">VERSION</a> : Number = 3.02<div class="summaryTableDescription">[static] </div></td><td class="summaryTableOwnerCol">MonsterDebugger</td></tr></table></div><script language="javascript" type="text/javascript"><!--
+										showHideInherited();
+										--></script><div class="MainContent"><div class="detailSectionHeader">Property Detail</div><a name="propertyDetail"></a><a name="enabled"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">enabled</td><td class="detailHeaderType">property</td></tr></table><div class="detailBody"><code>enabled:Boolean</code><p></p><p></p><p>
+		 Enables or disables the Monster Debugger. You can set this property before calling initialize 
+		 to disable even the core functions and socket connection to keep the memory footprint at 
+		 a minimum. We advise you to always disable the Monster Debugger on a final build.
+		 </p><br/><span class="label"> Implementation </span><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;public static function get enabled():Boolean</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;public static function set enabled(value:Boolean):void</code><br/></div><a name="propertyDetail"></a><a name="logger"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">logger</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static var logger:Function</code><p></p><p></p><p>
+		 Debugger for the Monster Debugger.
+		 
+		 </p><br/><span class="label"> Example </span><br/>
+		 <code>
+		 MonsterDebugger.initialize(this);
+		 MonsterDebugger.logger = trace;
+		 MonsterDebugger.logger(["foo", "bar"]);
+		 </code>
+		 </div><a name="methodDetail"></a><div class="detailSectionHeader">Method Detail</div><a name="breakpoint()"></a><a name="breakpoint(any,String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">breakpoint</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td></tr></table><div class="detailBody"><code> public static function breakpoint(caller:*, id:String = breakpoint):void</code><p></p><p></p><p>
+		 Since version 3.0 the Monster Debugger supports breakpoints. Calling this function will pause 
+		 your application on that specific point. All timers, event listeners, animations, etc. will 
+		 stop, but you can still inspect your application using the Monster Debugger desktop application. 
+		 <b>Note: This function is only available when running your application in the Flash Debug Player 
+		 or Adobe AIR’s ADL launcher.</b>
+		 
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">caller</span>:*</code> &mdash; 	The caller of the breakpoint. We suggest you always use the keyword "this". 
+		 					The caller is displayed in the desktop application to easily identify your 
+		 					breakpoints on instance level. Note: if you use this function within a static 
+		 					class use a string as caller like: "MyStaticClass".
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">id</span>:String</code> (default = <code>breakpoint</code>)<code></code> &mdash; 	(Optional) The identifier of the breakpoint, used as a label in the interface.
+		 </td></tr></table></p><br/><span class="label"> Example </span><br/>
+		 <code>
+		 MonsterDebugger.breakpoint(this);
+		 MonsterDebugger.breakpoint(this, "myLabel");
+		 </code>
+		 
+		 </div><a name="clear()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">clear</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public static function clear():void</code><p></p><p></p><p>
+		 This will clear all traces in the connected Monster Debugger desktop application. 
+		 
+		 </p><br/><span class="label"> Example </span><br/>
+		 <code>
+		 MonsterDebugger.clear();
+		 </code>
+		 
+		 </div><a name="initialize()"></a><a name="initialize(Object,String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">initialize</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public static function initialize(base:Object, address:String = 127.0.0.1):void</code><p></p><p></p><p>
+		 This will initialize the Monster Debugger, the client will start a socket connection 
+		 to the Monster Debugger desktop application and initialize the core functions like 
+		 memory- and fpsmonitor. From this point on you can use other functions like trace, 
+		 snapshot, inspect, etc.
+		 
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">base</span>:Object</code> &mdash; 		The root of your application. We suggest you use the document class 
+		 						or stage property for this. In PureMVC projects this could also 
+		 						be your main view or application façade, but in this you won't be able
+		 						to see the display tree or use the highlight functions.
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">address</span>:String</code> (default = <code>127.0.0.1</code>)<code></code> &mdash;      (Optional) An IP address where the Monster Debugger will 
+		 						try to connect to. By default it will connect to you local IP address 
+		 						(127.0.0.1) but you can also supply another IP address like a remote
+		 						machine. 			
+		 </td></tr></table></p><br/><span class="label"> Example </span><br/>
+		 <code>
+		 MonsterDebugger.initialize(this);
+		 MonsterDebugger.initialize(stage);
+		 </code>
+		 
+		 </div><a name="inspect()"></a><a name="inspect(any)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">inspect</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public static function inspect(object:*):void</code><p></p><p></p><p>
+		 This function will change the base target of the Monster Debugger that was set in the initialize 
+		 function and send the new target to the desktop application for inspection. For example: This 
+		 can be easy when you want to inspect a loaded SWF movie or an active window in case of Adobe AIR. 
+		 The main advantage of inspect over a trace if the live browsing capabilities in the desktop 
+		 application and the possibility to adjust properties and run methods.
+		 
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">object</span>:*</code> &mdash; The object to inspect.
+		 </td></tr></table></p><br/><span class="label"> Example </span><br/>
+		 <code>
+		 MonsterDebugger.inspect(myMovieClip);
+		 MonsterDebugger.inspect(NativeApplication.activeWindow);
+		 </code>
+		 
+		 </div><a name="log()"></a><a name="log(restParam)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">log</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public static function log(... args):void</code><p></p><p></p><p>
+		 This is a copy of the classic Flash trace function where you can supply a comma separated 
+		 list of objects to trace. It will call the MonsterDebugger.trace() function for every object you 
+		 supply in the arguments (... args). This can be useful when tracing multiple properties at once 
+		 like: MonsterDebugger.log(x, y, width, height). But it can also be handy for tracing events 
+		 as can be seen in the example.
+		 
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code>... <span class="label">args</span></code> &mdash; A list of objects or properties to trace. 
+		 </td></tr></table></p><br/><span class="label"> Example </span><br/>
+		 <code>
+		 MonsterDebugger.log(x, y, width, height);
+		 addEventListener(Event.COMPLETE, MonsterDebugger.log);
+		 addEventListener(MouseEvent.CLICK, MonsterDebugger.log);
+		 </code>
+		 
+		 </div><a name="snapshot()"></a><a name="snapshot(any,flash.display.DisplayObject,String,String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">snapshot</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public static function snapshot(caller:*, object:DisplayObject, person:String, label:String):void</code><p></p><p></p><p>
+		 Makes a snapshot of a DisplayObject and sends it to the desktop application. This can be useful 
+		 if you need to compare visual states or display a hidden interface item. Snapshot will return 
+		 an un-rotated, completely visible (100% alpha) representation of the supplied DisplayObject.
+		 
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">caller</span>:*</code> &mdash; 	The caller of the snapshot. We suggest you always use the keyword "this". 
+		 					The caller is displayed in the desktop application to easily identify your 
+		 					snapshots on instance level. Note: if you use this function within a static 
+		 					class use a string as caller like: "MyStaticClass".
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">object</span>:DisplayObject</code> &mdash; 	The object to create the snapshot from. This object should extend a DisplayObject
+		 					(like a Sprite, MovieClip or UIComponent).
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">person</span>:String</code> &mdash; 	(Optional) The person of interest. You can use this label to easily work with 
+		 					a team of programmers on one project. The desktop application has a filter for 
+		 					persons so each member can see their own snapshots.
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">label</span>:String</code> &mdash; 	(Optional) Label to identify the snapshot. Within the desktop application 
+		 					you can filter on this label.
+		 </td></tr></table></p><br/><span class="label"> Example </span><br/>
+		 <code>
+		 MonsterDebugger.snapshot(this, myMovieClip);
+		 MonsterDebugger.snapshot(this, myBitmap, "joe", "interface");
+		 </code>
+		 
+		 </div><a name="trace()"></a><a name="trace(any,any,String,String,uint,int)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">trace</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code> public static function trace(caller:*, object:*, person:String, label:String, color:uint = 0x000000, depth:int = 5):void</code><p></p><p></p><p>
+		 The trace function of the Monster Debugger can be used to display standard objects like 
+		 Strings, Numbers, Arrays, etc. But it can also be used to display more complex objects like 
+		 custom classes, XML or even multidimensional arrays containing XML nodes for that matter. 
+		 It will send a snapshot of those objects to the desktop application where you can inspect them. 
+		 
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">caller</span>:*</code> &mdash; 			The caller of the trace. We suggest you always use the keyword "this". 
+		 							The caller is displayed in the desktop application to easily identify 
+		 							your traces on instance level. Note: if you use this function within a 
+		 							static class, use a string as caller like: "MyStaticClass".
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">object</span>:*</code> &mdash; 			The object to trace, this can be anything. For instance a String, 
+		 							Number or Array but also complex items like a custom class, 
+		 							multidimensional arrays.
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">person</span>:String</code> &mdash; 			(Optional) The person of interest. You can use this label to easily 
+		 							work with a team of programmers on one project. The desktop application 
+		 							has a filter for persons so each member can see their own traces.
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">label</span>:String</code> &mdash; 			(Optional) Label to identify the trace. Within the desktop application
+		 							you can filter on this label.
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">color</span>:uint</code> (default = <code>0x000000</code>)<code></code> &mdash; 			(Optional) The color of the trace. This can be useful if you want 
+		 							to color code your traces; red for errors, green for status updates, etc.
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">depth</span>:int</code> (default = <code>5</code>)<code></code> &mdash; 			(Optional) The level of depth for this trace. By default the Monster Debugger 
+		 							will trace a tree structure of five levels deep to preserve CPU power. 
+		 							In some occasions 5 could not be enough to see the whole object, for 
+		 							instance if you’re tracing a large XML document with many sub nodes. 
+		 							In those situations you can use a higher number to see the complete object. 
+		 							If you set the depth to -1 it will not limit the levels at all and will 
+		 							trace the entire tree. Be careful with this setting though as it can 
+		 							dramatically slow down your application.
+		 </td></tr></table></p><br/><span class="label"> Example </span><br/>
+		 <code>
+		 MonsterDebugger.trace(this, "error");
+		 MonsterDebugger.trace(this, myObject);
+		 MonsterDebugger.trace(this, myObject, "joe", "myLabel");
+		 MonsterDebugger.trace(this, myObject, "joe", "myLabel", 0xFF0000, 5, true);
+		 MonsterDebugger.trace("myStaticClass", myObject);
+		 </code>
+		 
+		 </div><div class="detailSectionHeader">Constant Detail</div><a name="constantDetail"></a><a name="VERSION"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">VERSION</td><td class="detailHeaderType">Constant</td></tr></table><div class="detailBody"><code>public static const VERSION:Number = 3.02</code><p></p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer></footer><br/>Mon Jan 2 2012, 01:58 PM +01:00  </center></div></body></html><!--<br/>Mon Jan 2 2012, 01:58 PM +01:00  -->
